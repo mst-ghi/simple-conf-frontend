@@ -1,0 +1,40 @@
+{
+  "name": "video-conf-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@mantine/core": "^7.4.2",
+    "@mantine/dates": "^7.4.2",
+    "@mantine/form": "^7.4.2",
+    "@mantine/hooks": "^7.4.2",
+    "@mantine/modals": "^7.4.2",
+    "@mantine/notifications": "^7.4.2",
+    "@tabler/icons-react": "^2.46.0",
+    "@tanstack/react-query": "^5.17.19",
+    "dayjs": "^1.11.10",
+    "immer": "^10.0.3",
+    "js-cookie": "^3.0.5",
+    "next": "14.1.0",
+    "query-string": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.0.4",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  }
+}
