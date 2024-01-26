@@ -1,15 +1,21 @@
 import { Avatar, Button, Flex, Menu, Text } from '@mantine/core';
-import { openConfirmModal } from '@mantine/modals';
-import { IconLogout, IconUserPin } from '@tabler/icons-react';
-import { useAuth } from '../auth';
+import { closeAllModals, openConfirmModal, openModal } from '@mantine/modals';
+import { IconLock, IconLogout, IconUserPin } from '@tabler/icons-react';
+import { ChangePasswordForm, useAuth } from '../auth';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const UserAvatarHeader = () => {
-  const { isLoggedIn, user, logout } = useAuth();
+  const pathname = usePathname();
+  const { isLoggedIn, user, logoutRequest } = useAuth();
 
   if (!isLoggedIn || !user) {
     return (
-      <Button variant="light" component={Link} href="/auth/login">
+      <Button
+        variant={!pathname.includes('/auth') ? 'light' : undefined}
+        component={Link}
+        href="/auth/login"
+      >
         Login / Register
       </Button>
     );
@@ -18,12 +24,18 @@ const UserAvatarHeader = () => {
   return (
     <Menu position="bottom-end" withArrow withinPortal width={200}>
       <Menu.Target>
-        <Avatar radius="xl" />
+        <Avatar radius="xl" src="/user.png" />
       </Menu.Target>
 
       <Menu.Dropdown>
         <Flex direction="row" px="xs" py={4} align="center" gap={6}>
-          <Avatar size="sm" alt={user.name} radius="md" color="blue" />
+          <Avatar
+            size="sm"
+            alt={user.name}
+            radius="md"
+            color="blue"
+            src="/user.png"
+          />
           <Text size="sm" fw={600}>
             {user.name}
           </Text>
@@ -31,8 +43,24 @@ const UserAvatarHeader = () => {
 
         <Menu.Divider mx="xs" />
 
-        <Menu.Item leftSection={<IconUserPin size={20} />}>
+        <Menu.Item
+          leftSection={<IconUserPin size={20} />}
+          component={Link}
+          href="/profile"
+        >
           My Profile
+        </Menu.Item>
+
+        <Menu.Item
+          leftSection={<IconLock size={20} />}
+          onClick={() => {
+            openModal({
+              title: 'Change Password',
+              children: <ChangePasswordForm done={closeAllModals} />,
+            });
+          }}
+        >
+          Change Password
         </Menu.Item>
 
         <Menu.Item
@@ -49,7 +77,7 @@ const UserAvatarHeader = () => {
               confirmProps: {
                 color: 'red',
               },
-              onConfirm: logout,
+              onConfirm: logoutRequest,
             });
           }}
         >

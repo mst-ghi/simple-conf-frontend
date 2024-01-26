@@ -1,3 +1,5 @@
+'use client';
+
 import { Logo } from '@/components/common';
 import { Page } from '@/components/shell';
 import { Center } from '@mantine/core';

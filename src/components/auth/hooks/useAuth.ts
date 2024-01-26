@@ -7,7 +7,6 @@ import { useApp } from '@/hooks';
 const useAuth = () => {
   const states = useApp();
   const { callRequest } = useRequest();
-
   const [loading, setLoading] = useState(false);
 
   const setTokensToCookies = (tokens: ITokens) => {
@@ -21,7 +20,15 @@ const useAuth = () => {
     removeAllCookies();
   };
 
-  const logout = () => {
+  const logoutRequest = async () => {
+    setLoading(true);
+
+    try {
+      await callRequest('GET', '/api/v1/auth/logout');
+    } catch (error) {
+      console.log('logoutRequest', error);
+    }
+
     clearAuthData();
     forceReload('/');
   };
@@ -93,16 +100,12 @@ const useAuth = () => {
     redirectUrl = '/',
   ) => {
     setLoading(true);
-    let response: (ICallRequestResponse & { tokens: ITokens }) | undefined;
+    let response: ICallRequestResponse | undefined;
 
     try {
-      response = await callRequest<{ tokens: ITokens }>(
-        'POST',
-        '/api/v1/auth/register',
-        {
-          body,
-        },
-      );
+      response = await callRequest('POST', '/api/v1/auth/register', {
+        body,
+      });
 
       if (response?.success) {
         forceReload(redirectUrl);
@@ -120,6 +123,32 @@ const useAuth = () => {
     return response;
   };
 
+  const changePasswordRequest = async (body: {
+    current_password: string;
+    new_password: string;
+  }) => {
+    setLoading(true);
+    let response: ICallRequestResponse | undefined;
+
+    try {
+      response = await callRequest('PUT', '/api/v1/auth/password', {
+        body,
+      });
+
+      if (!response?.success) {
+        showNotification({
+          color: 'red',
+          message: response.message,
+        });
+      }
+    } catch (error) {
+      console.log('changePasswordRequest', error);
+    }
+
+    setLoading(false);
+    return response;
+  };
+
   return {
     ...states,
     loading,
@@ -128,7 +157,8 @@ const useAuth = () => {
     refetchUser: fetchUser,
     loginRequest,
     registerRequest,
-    logout,
+    changePasswordRequest,
+    logoutRequest,
   };
 };
 

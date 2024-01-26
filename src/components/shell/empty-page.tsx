@@ -9,14 +9,7 @@ const EmptyPage = ({
   useDocumentTitle(Envs.app.title);
 
   return (
-    <Flex
-      mih="45vh"
-      align="center"
-      justify="center"
-      direction="column"
-      gap={16}
-      {...props}
-    >
+    <Flex mih="64vh" direction="column" {...props}>
       {children}
     </Flex>
   );
