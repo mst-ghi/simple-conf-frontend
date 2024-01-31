@@ -13,6 +13,10 @@ const useRequest = () => {
       headers['Content-Type'] = 'application/json';
     }
 
+    if (!headers['accept']) {
+      headers['accept'] = 'application/json';
+    }
+
     const accTkn = getCookie('sub-acc-tkn');
     if (accTkn) {
       headers['Authorization'] = `Bearer ${accTkn}`;
@@ -30,7 +34,7 @@ const useRequest = () => {
       body?: any;
       params?: any;
       headers?: any;
-      withoutStringifyBody?: boolean;
+      tags?: string[];
     },
   ): Promise<ICallRequestResponse & T> => {
     setCalling(true);
@@ -39,11 +43,7 @@ const useRequest = () => {
     let body = undefined;
 
     if (init?.body) {
-      if (init?.withoutStringifyBody) {
-        body = init?.body;
-      } else {
-        body = JSON.stringify(init?.body);
-      }
+      body = JSON.stringify(init?.body);
     }
 
     let url = `${Envs.api.url}${path}`;
@@ -52,20 +52,25 @@ const useRequest = () => {
       url += '?' + urlQueryString(init.params);
     }
 
-    const response = await fetch(url, {
+    return fetch(url, {
       method,
       body,
       headers,
-      redirect: 'manual',
-    }).then(async (res) => {
-      let success;
-      let unprocessable;
-      let internalError;
-      let message;
-      let data: any = {};
-      let errors: SetStateAction<FormErrors> = {};
+      mode: 'cors',
+      cache: Envs.isDev ? 'no-store' : 'force-cache',
+      next: {
+        revalidate: 360, // 6 minutes
+        tags: init?.tags,
+      },
+    })
+      .then(async (res) => {
+        let success;
+        let unprocessable;
+        let internalError = !res.ok;
+        let message;
+        let data: any = {};
+        let errors: SetStateAction<FormErrors> = {};
 
-      try {
         if (res.status >= 500 && res.status < 600) {
           internalError = true;
         }
@@ -74,35 +79,43 @@ const useRequest = () => {
         success = res.status === 200;
         unprocessable = res.status === 422;
 
-        let response = await res.json();
+        try {
+          let response = await res.json();
 
-        message = response.message;
-        data = response.data || {};
-        errors = response.errors || {};
+          message = response.message;
+          data = response.data || {};
+          errors = response.errors || {};
 
-        if (internalError) {
-          showNotification({
-            color: 'red',
-            message: message || 'Internal server error. Please contact support',
-          });
+          if (internalError) {
+            showNotification({
+              color: 'red',
+              message:
+                message || 'Internal server error. Please contact support',
+            });
+          }
+        } catch (err) {
+          console.error('err', err);
         }
-      } catch (error) {
-        //
-      }
 
-      return {
-        ...data,
-        errors,
-        message,
-        success,
-        unprocessable,
-        internalError,
-      };
-    });
-
-    setCalling(false);
-
-    return response;
+        return {
+          ...data,
+          errors,
+          message,
+          success,
+          unprocessable,
+          internalError,
+        };
+      })
+      .catch((err) => {
+        showNotification({
+          color: 'red',
+          message:
+            err.message || 'Internal server error. Please contact support',
+        });
+      })
+      .finally(() => {
+        setCalling(false);
+      });
   };
 
   return {

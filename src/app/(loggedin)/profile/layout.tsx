@@ -12,7 +12,7 @@ export default function LoggedInLayout({
     <Container w="100%" mt="sm">
       <Flex direction="column" align="center" gap="md">
         <UserHeroCard />
-        <Box>{children}</Box>
+        <Box w="100%">{children}</Box>
       </Flex>
     </Container>
   );

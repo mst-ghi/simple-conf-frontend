@@ -12,7 +12,8 @@ import { Logo } from '../common';
 import UserAvatarHeader from './user-avatar-header';
 
 const links: { label: string; href: string }[] = [
-  { label: 'Conference', href: '/conf' },
+  { label: 'Communities', href: '/communities' },
+  { label: 'Conference', href: '/conference' },
 ];
 
 const PageHeader = () => {

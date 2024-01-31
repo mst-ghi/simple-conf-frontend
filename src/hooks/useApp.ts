@@ -9,6 +9,7 @@ export interface States {
   webcamStatus?: boolean;
   screenSharingStatus?: boolean;
   user?: IUser;
+  joinedCommunities?: ICommunity[];
 }
 
 export interface Actions {
@@ -19,6 +20,7 @@ export interface Actions {
   setWebcamStatus: (webcamStatus?: boolean) => void;
   setScreenSharingStatus: (screenSharingStatus?: boolean) => void;
   setUser: (user?: IUser) => void;
+  setJoinedCommunities: (joinedCommunities?: ICommunity[]) => void;
 }
 
 const InitStoreData: States = {
@@ -46,6 +48,8 @@ const useApp = create(
           isInvalidToken: !Boolean(user),
         };
       }),
+    setJoinedCommunities: (joinedCommunities) =>
+      set(() => ({ joinedCommunities })),
   })),
 );
 

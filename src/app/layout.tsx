@@ -13,7 +13,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isInvalidToken, user } = await init();
+  const initData = await init();
 
   return (
     <html lang="en">
@@ -26,9 +26,7 @@ export default async function RootLayout({
       </head>
 
       <body suppressHydrationWarning>
-        <BaseShell isInvalidToken={isInvalidToken} user={user}>
-          {children}
-        </BaseShell>
+        <BaseShell {...initData}>{children}</BaseShell>
       </body>
     </html>
   );

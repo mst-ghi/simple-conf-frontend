@@ -15,15 +15,15 @@ import {
 
 export interface PageProps {
   children?: React.ReactNode;
-  title: string;
+  title?: string;
   loading?: boolean;
   unstyled?: boolean;
 }
 
 const Page = ({ title, loading, children, unstyled = false }: PageProps) => {
+  useDocumentTitle(title ? `${title} - ${Envs.app.title}` : Envs.app.title);
   const { isDesktop } = useThemeStyle();
 
-  useDocumentTitle(`${Envs.app.title} - ${title}`);
   const [scroll, scrollTo] = useWindowScroll();
 
   return (

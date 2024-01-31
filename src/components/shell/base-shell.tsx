@@ -30,23 +30,32 @@ const queryClient = new QueryClient({
 interface BaseShellProps extends MantineProviderProps {
   isInvalidToken?: boolean;
   user?: IUser;
+  joinedCommunities?: ICommunity[];
 }
 
 const BaseShell = ({
   isInvalidToken = false,
   user,
+  joinedCommunities,
   children,
   ...props
 }: BaseShellProps) => {
-  const { isLoading, setIsInvalidToken, setUser, setIsLoading } = useApp();
+  const {
+    isLoading,
+    setIsInvalidToken,
+    setUser,
+    setJoinedCommunities,
+    setIsLoading,
+  } = useApp();
 
   useEffect(() => {
     setIsInvalidToken(isInvalidToken);
     setUser(user);
+    setJoinedCommunities(joinedCommunities);
 
     const timeout = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timeout);
-  }, [isInvalidToken, user]);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

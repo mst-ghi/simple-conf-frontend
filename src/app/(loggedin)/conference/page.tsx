@@ -1,7 +1,7 @@
 'use client';
 
 import { Page } from '@/components/shell';
-import { ConfGrid } from '@/components/conf';
+import { ConfGrid } from '@/components/conference';
 
 export default function ConfPage() {
   return (

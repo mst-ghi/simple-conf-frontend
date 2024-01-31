@@ -31,4 +31,22 @@ export declare global {
     created_at: string;
     updated_at: string;
   }
+
+  interface IUserShort {
+    id: string;
+    email: string;
+    name: string;
+  }
+
+  interface ICommunity {
+    id: string;
+    owner_id: string;
+    title: string;
+    description: string;
+    status: 'active' | 'inactive';
+    created_at: string;
+    updated_at: string;
+    owner?: IUserShort;
+    users?: IUserShort[];
+  }
 }
