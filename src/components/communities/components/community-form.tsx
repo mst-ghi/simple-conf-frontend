@@ -47,11 +47,13 @@ const CommunityForm = ({
     }
 
     if (res?.success) {
-      form.reset();
-    }
+      if (!community?.id) {
+        form.reset();
+      }
 
-    if (done) {
-      done();
+      if (done) {
+        done();
+      }
     }
   };
 

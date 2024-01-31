@@ -57,7 +57,7 @@ const useRequest = () => {
       body,
       headers,
       mode: 'cors',
-      cache: Envs.isDev ? 'no-store' : 'force-cache',
+      cache: 'no-store',
       next: {
         revalidate: 360, // 6 minutes
         tags: init?.tags,

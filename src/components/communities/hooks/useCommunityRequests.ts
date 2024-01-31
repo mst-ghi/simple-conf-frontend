@@ -51,7 +51,7 @@ const useCommunityRequests = () => {
     try {
       response = await callRequest(
         'PUT',
-        `/api/v1/communities/${communityId}/update`,
+        `/api/v1/communities/${communityId}`,
         {
           body,
         },
