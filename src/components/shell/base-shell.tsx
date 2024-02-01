@@ -61,7 +61,12 @@ const BaseShell = ({
     <QueryClientProvider client={queryClient}>
       <FireFly />
 
-      <MantineProvider defaultColorScheme="light" theme={BaseTheme} {...props}>
+      <MantineProvider
+        defaultColorScheme="light"
+        withCssVariables
+        theme={BaseTheme}
+        {...props}
+      >
         <Notifications limit={7} autoClose={5000} containerWidth={320} />
 
         <ModalsProvider

@@ -1,6 +1,6 @@
 'use client';
 
-import { CommunityForm } from '@/components/communities';
+import { UserHeroCard } from '@/components/profile';
 import { Page } from '@/components/shell';
 import { useApp } from '@/hooks';
 import { Flex } from '@mantine/core';
@@ -11,7 +11,7 @@ export default function ConfPage() {
   return (
     <Page title={user?.name + ' Profile'}>
       <Flex direction="column" gap="lg">
-        <CommunityForm />
+        <UserHeroCard />
       </Flex>
     </Page>
   );

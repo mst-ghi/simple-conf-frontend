@@ -24,11 +24,18 @@ const UserAvatarHeader = () => {
   return (
     <Menu position="bottom-end" withArrow withinPortal width={200}>
       <Menu.Target>
-        <Avatar radius="xl" src="/user.png" />
-      </Menu.Target>
-
-      <Menu.Dropdown>
-        <Flex direction="row" px="xs" py={4} align="center" gap={6}>
+        <Flex
+          direction="row"
+          px="xs"
+          py={4}
+          align="center"
+          gap={6}
+          style={{
+            cursor: 'pointer',
+            border: '1px solid var(--mantine-color-gray-5)',
+            borderRadius: 'var(--mantine-radius-md)',
+          }}
+        >
           <Avatar
             size="sm"
             alt={user.name}
@@ -40,15 +47,15 @@ const UserAvatarHeader = () => {
             {user.name}
           </Text>
         </Flex>
+      </Menu.Target>
 
-        <Menu.Divider mx="xs" />
-
+      <Menu.Dropdown>
         <Menu.Item
           leftSection={<IconUserPin size={20} />}
           component={Link}
-          href="/profile"
+          href="/account"
         >
-          My Profile
+          My Account
         </Menu.Item>
 
         <Menu.Item

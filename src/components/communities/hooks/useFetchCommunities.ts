@@ -2,9 +2,15 @@ import useRequest from '@/hooks/useRequest';
 import { useQuery } from '@tanstack/react-query';
 
 const useFetchCommunities = (
-  args: { page?: number | string; take?: number | string; search?: string } = {
+  args: {
+    page?: number | string;
+    take?: number | string;
+    search?: string;
+    own?: boolean;
+  } = {
     page: 0,
     take: 20,
+    own: false,
   },
 ) => {
   const { callRequest } = useRequest();
@@ -12,7 +18,7 @@ const useFetchCommunities = (
   const fetchConversations = async (): Promise<{
     communities: ICommunity[];
   }> => {
-    let url = `/api/v1/communities?page=${args.page || 0}&take=${
+    let url = `/api/v1/communities${args.own ? '/own' : ''}?page=${args.page || 0}&take=${
       args.take || 20
     }`;
     if (args.search) {

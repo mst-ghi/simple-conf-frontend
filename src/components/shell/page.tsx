@@ -29,7 +29,7 @@ const Page = ({ title, loading, children, unstyled = false }: PageProps) => {
   return (
     <Container unstyled={!isDesktop || unstyled} w="100%" mt="xs">
       {!loading && (
-        <Box px={isDesktop ? 'xs' : 0} mb={isDesktop ? 'sm' : 0} mx="xs">
+        <Box mb={isDesktop ? 'sm' : 0}>
           {children}
 
           {isDesktop && (
