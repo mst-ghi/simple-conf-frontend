@@ -13,7 +13,7 @@ import UserAvatarHeader from './user-avatar-header';
 
 const links: { label: string; href: string }[] = [
   { label: 'Communities', href: '/communities' },
-  { label: 'Conference', href: '/conference' },
+  { label: 'Events', href: '/events' },
 ];
 
 const PageHeader = () => {

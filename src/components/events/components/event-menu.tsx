@@ -3,34 +3,26 @@ import Link from 'next/link';
 import { ActionIcon, Flex, Menu } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 import { openModal } from '@mantine/modals';
-import { CommunityForm, useCommunityActions } from '..';
+import { EventForm } from '..';
+import { useApp } from '@/hooks';
 import {
-  IconCalendarEvent,
   IconDotsVertical,
   IconEdit,
   IconArrowLoopRight,
   IconTrash,
-  IconLayersUnion,
-  IconCalendarPlus,
 } from '@tabler/icons-react';
 
-const CommunityMenu = ({
-  community,
-  done,
-}: {
-  community?: ICommunity;
-  done?: () => void;
-}) => {
+const EventMenu = ({ event, done }: { event?: IEvent; done?: () => void }) => {
   const pathname = usePathname();
-  const { isIJoined, isIOwner } = useCommunityActions();
+  const { user } = useApp();
 
-  if (!community) {
+  if (!event) {
     return null;
   }
 
   return (
     <Flex direction="row" align="center" gap="md">
-      {isIOwner(community.owner_id) && (
+      {event.community?.owner_id === user?.id && (
         <Fragment>
           <ActionIcon color="orange">
             <IconTrash />
@@ -39,26 +31,19 @@ const CommunityMenu = ({
             color="blue"
             onClick={() => {
               openModal({
-                title: `Update ${community.title}`,
+                title: `Update ${event.title}`,
                 size: 'xl',
-                children: <CommunityForm community={community} done={done} />,
+                children: <EventForm event={event} done={done} />,
               });
             }}
           >
             <IconEdit />
           </ActionIcon>
-          <ActionIcon
-            color="blue"
-            component={Link}
-            href={`/account/new-event?communityId=${community.id}`}
-          >
-            <IconCalendarPlus />
-          </ActionIcon>
         </Fragment>
       )}
 
       <Menu
-        width={148}
+        width={184}
         shadow="sm"
         position="bottom-end"
         withArrow
@@ -74,23 +59,22 @@ const CommunityMenu = ({
           <Menu.Label>Operations</Menu.Label>
           <Menu.Divider mx="xs" />
 
-          {!pathname.includes(community.id) && (
+          {!pathname.includes(event.id) && (
             <Menu.Item
               leftSection={<IconArrowLoopRight />}
               component={Link}
-              href={`/communities/${community.id}`}
+              href={`/events/${event.id}`}
             >
               See Details
             </Menu.Item>
           )}
 
-          <Menu.Item leftSection={<IconCalendarEvent />}>See Events</Menu.Item>
-
           <Menu.Item
-            leftSection={<IconLayersUnion />}
-            disabled={isIJoined(community.id) || isIOwner(community.owner_id)}
+            leftSection={<IconArrowLoopRight />}
+            component={Link}
+            href={`/communities/${event.community_id}`}
           >
-            Join
+            See Community
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
@@ -98,4 +82,4 @@ const CommunityMenu = ({
   );
 };
 
-export default CommunityMenu;
+export default EventMenu;

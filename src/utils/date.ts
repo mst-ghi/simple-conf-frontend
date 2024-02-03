@@ -46,6 +46,16 @@ type AddTimeUnits =
   | 'quarter'
   | 'year';
 
+export const addToDate = (
+  dateValue: Date | string,
+  value: number | string,
+  unit: AddTimeUnits = 'second',
+) => {
+  return dayjs(dateValue)
+    .add(+value, unit as ManipulateType)
+    .toDate();
+};
+
 export const addTimeToNow = (
   value: number | string,
   unit: AddTimeUnits = 'second',

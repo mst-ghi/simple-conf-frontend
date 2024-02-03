@@ -38,15 +38,31 @@ export declare global {
     name: string;
   }
 
+  type TCommunityStatus = 'active' | 'inactive';
   interface ICommunity {
     id: string;
     owner_id: string;
     title: string;
     description: string;
-    status: 'active' | 'inactive';
+    status: TCommunityStatus;
     created_at: string;
     updated_at: string;
     owner?: IUserShort;
     users?: IUserShort[];
+    events?: IEvent[];
+  }
+
+  type TEventStatus = 'pending' | 'started' | 'finished';
+  interface IEvent {
+    id: string;
+    community_id: string;
+    title: string;
+    description: string;
+    duration: number;
+    status: TEventStatus;
+    start_at: string;
+    created_at: string;
+    updated_at: string;
+    community?: ICommunity;
   }
 }

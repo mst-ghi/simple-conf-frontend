@@ -1,4 +1,12 @@
-import { Box, Button, Card, Text, TextInput, Textarea } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Card,
+  Text,
+  TextInput,
+  Textarea,
+  Title,
+} from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconLetterCase } from '@tabler/icons-react';
 import { useEffect } from 'react';
@@ -66,7 +74,7 @@ const CommunityForm = ({
 
   return (
     <Card withBorder={!community?.id} pt={community?.id ? 0 : undefined}>
-      {!community?.id && <Text>Create Your Own Community</Text>}
+      {!community?.id && <Title order={2}>Create Your Own Community</Title>}
 
       <Box>
         <form onSubmit={form.onSubmit(handleSubmit)}>

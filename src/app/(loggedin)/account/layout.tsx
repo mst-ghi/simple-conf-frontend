@@ -1,8 +1,13 @@
 'use client';
 
 import { Box, Tabs } from '@mantine/core';
-import { IconCube, IconCubePlus, IconUserEdit } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
+import {
+  IconCalendarPlus,
+  IconCube,
+  IconCubePlus,
+  IconUserEdit,
+} from '@tabler/icons-react';
 
 const ProfileLinks = [
   { label: 'Profile', href: '/account', icon: <IconUserEdit /> },
@@ -15,6 +20,11 @@ const ProfileLinks = [
     label: 'New Community',
     href: '/account/new-community',
     icon: <IconCubePlus />,
+  },
+  {
+    label: 'New Event',
+    href: '/account/new-event',
+    icon: <IconCalendarPlus />,
   },
 ];
 
