@@ -29,6 +29,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.17.19
     version: 5.17.19(react@18.2.0)
+  bufferutil:
+    specifier: ^4.0.8
+    version: 4.0.8
   dayjs:
     specifier: ^1.11.10
     version: 1.11.10
@@ -52,7 +55,7 @@ dependencies:
     version: 18.2.0(react@18.2.0)
   socket.io-client:
     specifier: 2.3.0
-    version: 2.3.0(utf-8-validate@5.0.2)
+    version: 2.3.0(bufferutil@4.0.8)(utf-8-validate@5.0.2)
   utf-8-validate:
     specifier: ^5.0.2
     version: 5.0.2
@@ -765,6 +768,14 @@ packages:
       fill-range: 7.0.1
     dev: true
 
+  /bufferutil@4.0.8:
+    resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
+    engines: {node: '>=6.14.2'}
+    requiresBuild: true
+    dependencies:
+      node-gyp-build: 4.8.0
+    dev: false
+
   /busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
     engines: {node: '>=10.16.0'}
@@ -975,7 +986,7 @@ packages:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
 
-  /engine.io-client@3.4.4(utf-8-validate@5.0.2):
+  /engine.io-client@3.4.4(bufferutil@4.0.8)(utf-8-validate@5.0.2):
     resolution: {integrity: sha512-iU4CRr38Fecj8HoZEnFtm2EiKGbYZcPn3cHxqNGl/tmdWRf60KhK+9vE0JeSjgnlS/0oynEfLgKbT9ALpim0sQ==}
     dependencies:
       component-emitter: 1.3.1
@@ -986,7 +997,7 @@ packages:
       indexof: 0.0.1
       parseqs: 0.0.6
       parseuri: 0.0.6
-      ws: 6.1.4(utf-8-validate@5.0.2)
+      ws: 6.1.4(bufferutil@4.0.8)(utf-8-validate@5.0.2)
       xmlhttprequest-ssl: 1.5.5
       yeast: 0.1.2
     transitivePeerDependencies:
@@ -2050,6 +2061,11 @@ packages:
     hasBin: true
     dev: false
 
+  /node-gyp-build@4.8.0:
+    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
+    hasBin: true
+    dev: false
+
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -2520,7 +2536,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /socket.io-client@2.3.0(utf-8-validate@5.0.2):
+  /socket.io-client@2.3.0(bufferutil@4.0.8)(utf-8-validate@5.0.2):
     resolution: {integrity: sha512-cEQQf24gET3rfhxZ2jJ5xzAOo/xhZwK+mOqtGRg5IowZsMgwvHwnf/mCRapAAkadhM26y+iydgwsXGObBB5ZdA==}
     dependencies:
       backo2: 1.0.2
@@ -2528,7 +2544,7 @@ packages:
       component-bind: 1.0.0
       component-emitter: 1.2.1
       debug: 4.1.1
-      engine.io-client: 3.4.4(utf-8-validate@5.0.2)
+      engine.io-client: 3.4.4(bufferutil@4.0.8)(utf-8-validate@5.0.2)
       has-binary2: 1.0.3
       has-cors: 1.1.0
       indexof: 0.0.1
@@ -2920,7 +2936,7 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /ws@6.1.4(utf-8-validate@5.0.2):
+  /ws@6.1.4(bufferutil@4.0.8)(utf-8-validate@5.0.2):
     resolution: {integrity: sha512-eqZfL+NE/YQc1/ZynhojeV8q+H050oR8AZ2uIev7RU10svA9ZnJUddHcOUZTJLinZ9yEfdA2kSATS2qZK5fhJA==}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -2932,6 +2948,7 @@ packages:
         optional: true
     dependencies:
       async-limiter: 1.0.1
+      bufferutil: 4.0.8
       utf-8-validate: 5.0.2
     dev: false
 
