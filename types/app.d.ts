@@ -18,6 +18,18 @@ export declare global {
     internalError: boolean;
   }
 
+  interface ISocketEmitArgs<T extends {}> {
+    event: string;
+    data?: T;
+  }
+
+  interface ISocketData<T extends {}> {
+    code: int;
+    message: string;
+    errors: object;
+    data: T;
+  }
+
   interface ITokens {
     access_token: string;
     refresh_token: string;

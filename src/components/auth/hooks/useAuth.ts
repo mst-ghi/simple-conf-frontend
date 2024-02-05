@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import useRequest from '@/hooks/useRequest';
 import { forceReload, removeAllCookies, setCookie } from '@/utils';
-import { useApp } from '@/hooks';
+import { useApp, useSocketIO } from '@/hooks';
 
 const useAuth = () => {
   const states = useApp();
+  const { actions } = useSocketIO();
   const { callRequest } = useRequest();
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +19,7 @@ const useAuth = () => {
   const clearAuthData = () => {
     states.setUser();
     removeAllCookies();
+    actions.disconnect();
   };
 
   const logoutRequest = async () => {

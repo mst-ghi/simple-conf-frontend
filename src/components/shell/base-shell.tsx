@@ -18,6 +18,7 @@ import useApp from '@/hooks/useApp';
 import { PageHeader } from '.';
 import { BaseTheme } from '@/utils';
 import { FireFly, FullLoader } from '../common';
+import { useSocketIO } from '@/hooks';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,11 +43,14 @@ const BaseShell = ({
 }: BaseShellProps) => {
   const {
     isLoading,
+    isLoggedIn,
     setIsInvalidToken,
     setUser,
     setJoinedCommunities,
     setIsLoading,
   } = useApp();
+
+  const { actions } = useSocketIO();
 
   useEffect(() => {
     setIsInvalidToken(isInvalidToken);
@@ -56,6 +60,12 @@ const BaseShell = ({
     const timeout = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timeout);
   }, []);
+
+  useEffect(() => {
+    if (isLoading && isLoggedIn) {
+      actions.connect();
+    }
+  }, [isLoading, isLoggedIn]);
 
   return (
     <QueryClientProvider client={queryClient}>

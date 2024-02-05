@@ -1,12 +1,14 @@
-import { Avatar, Button, Flex, Menu, Text } from '@mantine/core';
+import { Avatar, Button, Flex, Indicator, Menu, Text } from '@mantine/core';
 import { closeAllModals, openConfirmModal, openModal } from '@mantine/modals';
 import { IconLock, IconLogout, IconUserPin } from '@tabler/icons-react';
 import { ChangePasswordForm, useAuth } from '../auth';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSocketIO } from '@/hooks';
 
 const UserAvatarHeader = () => {
   const pathname = usePathname();
+  const { isConnected } = useSocketIO();
   const { isLoggedIn, user, logoutRequest } = useAuth();
 
   if (!isLoggedIn || !user) {
@@ -24,29 +26,38 @@ const UserAvatarHeader = () => {
   return (
     <Menu position="bottom-end" withArrow withinPortal width={200}>
       <Menu.Target>
-        <Flex
-          direction="row"
-          px="xs"
-          py={4}
-          align="center"
-          gap={6}
-          style={{
-            cursor: 'pointer',
-            border: '1px solid var(--mantine-color-gray-5)',
-            borderRadius: 'var(--mantine-radius-md)',
-          }}
+        <Indicator
+          color={isConnected ? 'green' : 'orange'}
+          position="top-end"
+          offset={4}
+          size={14}
+          withBorder
         >
-          <Avatar
-            size="sm"
-            alt={user.name}
-            radius="md"
-            color="blue"
-            src="/user.png"
-          />
-          <Text size="sm" fw={600}>
-            {user.name}
-          </Text>
-        </Flex>
+          <Flex
+            direction="row"
+            px="xs"
+            py={4}
+            align="center"
+            gap={6}
+            style={{
+              cursor: 'pointer',
+              border: '1px solid var(--mantine-color-gray-5)',
+              borderRadius: 'var(--mantine-radius-md)',
+            }}
+          >
+            <Avatar
+              size="sm"
+              alt={user.name}
+              radius="md"
+              color="blue"
+              src="/user.png"
+            />
+
+            <Text size="sm" fw={600}>
+              {user.name}
+            </Text>
+          </Flex>
+        </Indicator>
       </Menu.Target>
 
       <Menu.Dropdown>

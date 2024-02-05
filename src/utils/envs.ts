@@ -9,4 +9,39 @@ export const Envs = {
   api: {
     url: 'http://localhost:3001',
   },
+  socket: {
+    url: 'http://localhost:3001',
+    events: {
+      user: {
+        me: 'user:me',
+      },
+      room: {
+        new: 'room:new',
+        update: 'room:update',
+        delete: 'room:delete',
+      },
+      message: {
+        new: 'message:new',
+        update: 'message:update',
+        delete: 'message:delete',
+      },
+    },
+  },
+};
+
+export const Events = {
+  user: {
+    me: 'user:me',
+    get: 'user:get',
+  },
+  room: {
+    new: 'room:new',
+    update: 'room:update',
+    delete: 'room:delete',
+  },
+  message: {
+    new: 'message:new',
+    update: 'message:update',
+    delete: 'message:delete',
+  },
 };
