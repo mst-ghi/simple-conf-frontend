@@ -77,4 +77,32 @@ export declare global {
     updated_at: string;
     community?: ICommunity;
   }
+
+  type TRoomMode = 'private' | 'public';
+  type TRoomAccess = 'owner' | 'member';
+
+  interface IRoom {
+    id: string;
+    owner_id: string;
+    title: string;
+    description: string;
+    mode: TRoomMode;
+    access: TRoomAccess;
+    created_at: string;
+    updated_at: string;
+    users?: IUserShort[];
+    messages?: IMessage[];
+  }
+
+  type TMessageType = 'text' | 'link' | 'image' | 'video' | 'file';
+
+  interface IMessage {
+    id: string;
+    room_id: string;
+    content: string;
+    type: TMessageType;
+    created_at: string;
+    updated_at: string;
+    user: IUserShort;
+  }
 }

@@ -1,4 +1,4 @@
-import { MantineThemeOverride, ScrollArea } from '@mantine/core';
+import { MantineThemeOverride, rem } from '@mantine/core';
 
 export const BaseTheme: Partial<MantineThemeOverride> = {
   defaultRadius: 'md',
@@ -20,6 +20,12 @@ export const BaseTheme: Partial<MantineThemeOverride> = {
         style: {
           opacity: 0.9,
         },
+      },
+    },
+    Menu: {
+      defaultProps: {
+        withArrow: true,
+        withinPortal: true,
       },
     },
   },

@@ -15,7 +15,7 @@ const TimeFormats = {
   short: 'MMM DD - HH:mm',
   'full-date-time': 'dddd, MMMM DD, YYYY HH:mm A', // Tuesday, October 12, 2021 12:53 PM
   'normal-date': 'MMMM DD, YYYY', // October 12, 2021
-  'normal-date-time': 'MMMM DD, YYYY hh:mm A', // October 12, 2021 05:12 PM
+  'normal-date-time': 'MMMM DD, YYYY HH:mm', // October 12, 2021 05:12 PM
   'json-custom-date-time-string': 'YYYY-MM-DD HH:mm',
   'month-and-day': 'MMMM DD',
   'calendar-day': 'YYYY-MM-DD',

@@ -1,10 +1,10 @@
 import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
 import '@mantine/dates/styles.css';
+import '@mantine/notifications/styles.css';
 import '@/styles/app.css';
 
-import { ColorSchemeScript } from '@mantine/core';
 import { BaseShell } from '@/components/shell';
+import { ColorSchemeScript } from '@mantine/core';
 
 import { Envs } from '@/utils';
 import init from './init';

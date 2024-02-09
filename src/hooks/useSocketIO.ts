@@ -16,9 +16,13 @@ const IoClientConfig: SocketIOClient.ConnectOpts = {
 };
 
 interface States {
+  socket: SocketIOClient.Socket;
   isConnected?: boolean;
   isDisconnected?: boolean;
-  socket: SocketIOClient.Socket;
+
+  room: {
+    activeId?: string;
+  };
 }
 
 interface Actions {
@@ -26,13 +30,15 @@ interface Actions {
     connect: () => void;
     disconnect: () => void;
     emit: <T extends {}>(arg: ISocketEmitArgs<T>) => void;
+    setActiveRoomId: (roomId?: string) => void;
   };
 }
 
 const InitStoreData: States = {
+  socket: ioClient(Envs.socket.url, IoClientConfig),
   isConnected: false,
   isDisconnected: true,
-  socket: ioClient(Envs.socket.url, IoClientConfig),
+  room: { activeId: undefined },
 };
 
 const socketStates = immer<States & Actions>((set) => {
@@ -67,6 +73,9 @@ const socketStates = immer<States & Actions>((set) => {
       },
       emit: (arg) => {
         socket.emit(arg.event, arg.data);
+      },
+      setActiveRoomId: (activeId?: string) => {
+        set({ room: { activeId } });
       },
     },
   };

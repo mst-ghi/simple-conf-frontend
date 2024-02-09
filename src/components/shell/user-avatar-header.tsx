@@ -1,10 +1,15 @@
+import { useSocketIO } from '@/hooks';
 import { Avatar, Button, Flex, Indicator, Menu, Text } from '@mantine/core';
 import { closeAllModals, openConfirmModal, openModal } from '@mantine/modals';
-import { IconLock, IconLogout, IconUserPin } from '@tabler/icons-react';
-import { ChangePasswordForm, useAuth } from '../auth';
+import {
+  IconLock,
+  IconLogout,
+  IconMessage,
+  IconUserPin,
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSocketIO } from '@/hooks';
+import { ChangePasswordForm, useAuth } from '../auth';
 
 const UserAvatarHeader = () => {
   const pathname = usePathname();
@@ -67,6 +72,14 @@ const UserAvatarHeader = () => {
           href="/account"
         >
           My Account
+        </Menu.Item>
+
+        <Menu.Item
+          leftSection={<IconMessage size={20} />}
+          component={Link}
+          href="/chats"
+        >
+          Chat Rooms
         </Menu.Item>
 
         <Menu.Item

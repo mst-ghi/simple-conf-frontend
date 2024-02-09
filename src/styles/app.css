@@ -18,12 +18,48 @@ a {
   text-transform: uppercase;
 }
 
-svg, .mantine-Text-root, .mantine-Button-root, .mantine-Grid-col {
+svg, .mantine-Text-root, .mantine-Button-root, .mantine-Grid-col, .room-card {
   transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
+}
+
+.room-card {
+  cursor: pointer;
+}
+
+.room-card .mantine-Avatar-root {
+  cursor: pointer;
+  border: 1px solid var(--mantine-color-gray-3);
+}
+
+.room-card:hover {
+  background-color: var(--mantine-color-gray-2) !important;
+}
+
+.messages-view {
+  padding-top: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mantine-color-gray-5) var(--mantine-color-gray-1);
+}
+
+.messages-view::-webkit-scrollbar {
+  width: 16px;
+}
+
+.messages-view::-webkit-scrollbar-track {
+  background: var(--mantine-color-gray-1);
+}
+
+.messages-view::-webkit-scrollbar-thumb {
+  background-color: var(--mantine-color-gray-4);
+  border-radius: 16px;
 }
 
 @keyframes fade-in-show {
