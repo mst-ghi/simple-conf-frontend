@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Message } from '.';
-import { useListState } from '@mantine/hooks';
-import { Box, Center, ScrollArea, Text } from '@mantine/core';
+import { Box, Center, Text } from '@mantine/core';
 
 interface MessagesProps {
   initMessages?: IMessage[];
@@ -13,7 +12,7 @@ const Messages = ({ initMessages }: MessagesProps) => {
 
   useEffect(() => {
     if (initMessages) {
-      setMessages([...messages, ...initMessages]);
+      setMessages(initMessages);
     }
     if (ref.current) {
       ref.current.scrollTop = ref.current.scrollHeight;
