@@ -40,7 +40,7 @@ export const Events = {
     delete: 'room:delete',
   },
   message: {
-    new: 'message:new',
+    send: 'message:send',
     update: 'message:update',
     delete: 'message:delete',
   },

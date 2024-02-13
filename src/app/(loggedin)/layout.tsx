@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { EmptyPage } from '@/components/shell';
+import { EmptyPage } from '@/features/shell';
 import { useApp } from '@/hooks';
 import { useRouter } from 'next/navigation';
 

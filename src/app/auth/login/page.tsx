@@ -1,6 +1,6 @@
 'use client';
 
-import { LoginForm } from '@/components/auth';
+import { LoginForm } from '@/features/auth';
 import { Center } from '@mantine/core';
 
 const LoginPage = () => {

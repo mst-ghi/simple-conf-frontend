@@ -2,7 +2,7 @@ import { Button, Card, Divider, PasswordInput, TextInput } from '@mantine/core';
 import { IconAt, IconKey } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useThemeStyle } from '@/hooks';
-import { Logo } from '@/components/common';
+import { Logo } from '@/features/common';
 import { useAuth, useLoginForm } from '..';
 
 type LoginFormValues = {

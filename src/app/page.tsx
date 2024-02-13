@@ -1,7 +1,7 @@
 'use client';
 
-import { Logo } from '@/components/common';
-import { Page } from '@/components/shell';
+import { Logo } from '@/features/common';
+import { Page } from '@/features/shell';
 import { Center } from '@mantine/core';
 
 export default function Home() {

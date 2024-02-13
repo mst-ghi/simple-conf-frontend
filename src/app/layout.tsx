@@ -3,7 +3,7 @@ import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import '@/styles/app.css';
 
-import { BaseShell } from '@/components/shell';
+import { BaseShell } from '@/features/shell';
 import { ColorSchemeScript } from '@mantine/core';
 
 import { Envs } from '@/utils';

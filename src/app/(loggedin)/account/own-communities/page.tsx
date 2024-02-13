@@ -1,10 +1,7 @@
 'use client';
 
-import {
-  CommunitiesGroup,
-  useFetchCommunities,
-} from '@/components/communities';
-import { Page } from '@/components/shell';
+import { CommunitiesGroup, useFetchCommunities } from '@/features/communities';
+import { Page } from '@/features/shell';
 
 export default function OwnCommunities() {
   const { data, isFetching } = useFetchCommunities({ own: true });

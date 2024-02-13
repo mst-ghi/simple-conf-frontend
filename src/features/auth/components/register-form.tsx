@@ -2,7 +2,7 @@ import { IconAt, IconKey, IconLetterCase } from '@tabler/icons-react';
 import { Button, Card, Divider, PasswordInput, TextInput } from '@mantine/core';
 import Link from 'next/link';
 import { useThemeStyle } from '@/hooks';
-import { Logo } from '@/components/common';
+import { Logo } from '@/features/common';
 import { useAuth, useRegisterForm } from '..';
 
 type RegisterFormValues = {

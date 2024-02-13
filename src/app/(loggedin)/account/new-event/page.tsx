@@ -1,7 +1,7 @@
 'use client';
 
-import { EventForm } from '@/components/events/components';
-import { Page } from '@/components/shell';
+import { EventForm } from '@/features/events/components';
+import { Page } from '@/features/shell';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function NewEvent() {

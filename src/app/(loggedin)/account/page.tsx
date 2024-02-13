@@ -1,21 +1,18 @@
 'use client';
 
-import { UserHeroCard } from '@/components/profile';
-import { Page } from '@/components/shell';
+import { UserHeroCard } from '@/features/profile';
+import { Page } from '@/features/shell';
 import { useApp, useSocketIO } from '@/hooks';
 import { Events } from '@/utils';
 import { Button, Flex } from '@mantine/core';
-import { useEffect } from 'react';
 
 export default function ConfPage() {
   const { user } = useApp();
   const { socket, actions } = useSocketIO();
 
-  useEffect(() => {
-    socket.on(Events.user.me, (res: ISocketData<{ user: IUser }>) =>
-      console.log('res', res.data.user),
-    );
-  }, []);
+  socket.on(Events.user.me, (res: ISocketData<{ user: IUser }>) =>
+    console.log('res', res),
+  );
 
   return (
     <Page title={user?.name + ' Profile'}>

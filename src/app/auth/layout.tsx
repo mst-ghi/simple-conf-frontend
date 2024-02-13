@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment } from 'react';
-import { EmptyPage } from '@/components/shell';
+import { EmptyPage } from '@/features/shell';
 
 export default function AuthLayout({
   children,

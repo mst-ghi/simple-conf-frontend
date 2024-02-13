@@ -1,7 +1,7 @@
 'use client';
 
-import { Chats } from '@/components/chats';
-import { Page } from '@/components/shell';
+import { Chats } from '@/features/chats';
+import { Page } from '@/features/shell';
 
 export default function ChatsPage() {
   return (

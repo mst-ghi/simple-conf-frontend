@@ -1,7 +1,7 @@
 'use client';
 
-import { Page } from '@/components/shell';
-import { EventsGroup, useFetchEvents } from '@/components/events';
+import { Page } from '@/features/shell';
+import { EventsGroup, useFetchEvents } from '@/features/events';
 
 export default function EventsPage() {
   const { data, isFetching } = useFetchEvents();

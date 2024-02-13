@@ -1,6 +1,6 @@
 'use client';
 
-import { RegisterForm } from '@/components/auth';
+import { RegisterForm } from '@/features/auth';
 import { Center } from '@mantine/core';
 
 const RegisterPage = () => {

@@ -1,10 +1,7 @@
 'use client';
 
-import { Page } from '@/components/shell';
-import {
-  CommunitiesGroup,
-  useFetchCommunities,
-} from '@/components/communities';
+import { Page } from '@/features/shell';
+import { CommunitiesGroup, useFetchCommunities } from '@/features/communities';
 
 export default function CommunitiesPage() {
   const { data, isFetching } = useFetchCommunities();

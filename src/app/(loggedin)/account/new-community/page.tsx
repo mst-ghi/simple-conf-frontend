@@ -1,7 +1,7 @@
 'use client';
 
-import { CommunityForm } from '@/components/communities';
-import { Page } from '@/components/shell';
+import { CommunityForm } from '@/features/communities';
+import { Page } from '@/features/shell';
 import { useRouter } from 'next/navigation';
 
 export default function NewCommunity() {

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Page } from '@/components/shell';
+import { Page } from '@/features/shell';
 import { Button, Center, Flex, Image, Text } from '@mantine/core';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconArrowLeft, IconHome } from '@tabler/icons-react';

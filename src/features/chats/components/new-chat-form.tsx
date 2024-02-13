@@ -1,4 +1,4 @@
-import { UsersSelectInput } from '@/components/users';
+import { UsersSelectInput } from '@/features/users';
 import useRequest from '@/hooks/useRequest';
 import { Button, Card, CardProps, Flex } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';

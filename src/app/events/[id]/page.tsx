@@ -1,8 +1,8 @@
 'use client';
 
-import { Page } from '@/components/shell';
+import { Page } from '@/features/shell';
 import { notFound } from 'next/navigation';
-import { EventCard, useFetchEvent } from '@/components/events';
+import { EventCard, useFetchEvent } from '@/features/events';
 
 export default function EventPage({ params }: { params: { id: string } }) {
   const { data, isFetching } = useFetchEvent(params.id);

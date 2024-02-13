@@ -1,8 +1,8 @@
 'use client';
 
-import { Page } from '@/components/shell';
+import { Page } from '@/features/shell';
 import { notFound } from 'next/navigation';
-import { CommunityCard, useFetchCommunity } from '@/components/communities';
+import { CommunityCard, useFetchCommunity } from '@/features/communities';
 
 export default function CommunityPage({ params }: { params: { id: string } }) {
   const { data, isFetching } = useFetchCommunity(params.id);
