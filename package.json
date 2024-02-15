@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc": "tsc",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@mantine/core": "^7.5.2",
@@ -39,6 +45,7 @@
     "@types/socket.io-client": "1.4.36",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   }
