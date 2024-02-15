@@ -25,6 +25,7 @@ export declare global {
 
   interface ISocketData<T extends {}> {
     code: int;
+    event: string;
     message: string;
     errors: object;
     data: T;

@@ -30,6 +30,9 @@ export const Envs = {
 };
 
 export const Events = {
+  errors: {
+    unauthorized: 'errors:unauthorized',
+  },
   user: {
     me: 'user:me',
     get: 'user:get',
