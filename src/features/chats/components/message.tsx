@@ -10,20 +10,23 @@ const Message = ({ message }: { message: IMessage }) => {
     <Box dir={isOwner ? 'rtl' : 'ltr'}>
       <Card
         withBorder={false}
+        px="sm"
+        py="xs"
         style={{
           maxWidth: '70%',
+          minWidth: '24%',
           width: 'fit-content',
           blockSize: 'fit-content',
-          borderEndEndRadius: 28,
-          borderTopRightRadius: !isOwner ? 28 : undefined,
-          borderTopLeftRadius: isOwner ? 28 : undefined,
+          borderEndEndRadius: 20,
+          borderTopRightRadius: !isOwner ? 20 : 4,
+          borderTopLeftRadius: isOwner ? 20 : 4,
         }}
       >
         <Text dir="ltr" fw={500} size="xs">
           {message.content}
         </Text>
 
-        <Flex direction="row" align="center" justify="end" mt={8}>
+        <Flex direction="row" align="center" justify="end" mt={4}>
           <Text fw={300} fz={10}>
             {dateView(message.created_at, 'normal-date-time')}
           </Text>

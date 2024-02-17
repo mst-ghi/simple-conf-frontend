@@ -13,11 +13,11 @@ dayjs.extend(customParseFormat);
 const TimeFormats = {
   default: 'llll', // October 12, 2021 12:53 PM
   short: 'MMM DD - HH:mm',
-  'full-date-time': 'dddd, MMMM DD, YYYY HH:mm A', // Tuesday, October 12, 2021 12:53 PM
-  'normal-date': 'MMMM DD, YYYY', // October 12, 2021
-  'normal-date-time': 'MMMM DD, YYYY HH:mm', // October 12, 2021 05:12 PM
+  'full-date-time': 'dddd, MMM DD, YYYY HH:mm', // Tuesday, October 12, 2021 12:53 PM
+  'normal-date': 'MMM DD, YYYY', // October 12, 2021
+  'normal-date-time': 'MMM DD, YYYY HH:mm', // October 12, 2021 05:12 PM
   'json-custom-date-time-string': 'YYYY-MM-DD HH:mm',
-  'month-and-day': 'MMMM DD',
+  'month-and-day': 'MMM DD',
   'calendar-day': 'YYYY-MM-DD',
   'time-12h': 'hh:mm A',
   'time-24h': 'HH:mm',
@@ -25,7 +25,7 @@ const TimeFormats = {
 
 export const dateView = (
   date: string | Date,
-  format: keyof typeof TimeFormats = 'default',
+  format: keyof typeof TimeFormats = 'normal-date-time',
 ): string => {
   if (!date) return '';
   return dayjs(date).format(TimeFormats[format]);

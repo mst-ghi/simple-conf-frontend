@@ -28,7 +28,8 @@ const PageHeader = () => {
   return (
     <Card
       h={60}
-      py="xs"
+      pt="xs"
+      pb={isDesktop ? 'xs' : 0}
       radius={0}
       withBorder={false}
       style={{ backgroundColor: 'transparent' }}

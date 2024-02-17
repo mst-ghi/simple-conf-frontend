@@ -1,11 +1,18 @@
-import { useApp, useSocketIO } from '@/hooks';
+import { useApp, useSocketIO, useThemeStyle } from '@/hooks';
 import { ActionIcon, Avatar, Flex, Menu, Text } from '@mantine/core';
-import { IconDotsVertical, IconPlus, IconX } from '@tabler/icons-react';
+import {
+  IconArrowLeft,
+  IconDotsVertical,
+  IconPlus,
+  IconX,
+} from '@tabler/icons-react';
 import { NewChat } from '.';
+import { Fragment } from 'react';
 
 const ChatsHeader = () => {
   const { user } = useApp();
   const { room, actions } = useSocketIO();
+  const { isDesktop, isMobile } = useThemeStyle();
 
   if (!user) {
     return null;
@@ -13,22 +20,38 @@ const ChatsHeader = () => {
 
   return (
     <Flex direction="row" align="center" justify="space-between" gap="xs">
-      <Avatar
-        size="md"
-        alt={user.name}
-        radius="md"
-        color="blue"
-        src="/user.png"
-      />
+      {isMobile && (
+        <ActionIcon
+          variant="light"
+          size={36}
+          color="gray"
+          disabled={!room.activeId}
+          onClick={() => actions.setActiveRoomId()}
+        >
+          <IconArrowLeft size={26} stroke={3} />
+        </ActionIcon>
+      )}
 
-      <Flex direction="column" style={{ flex: 1 }}>
-        <Text size="sm" fw={600}>
-          {user.name}
-        </Text>
-        <Text size="xs" fw={400}>
-          {user.email}
-        </Text>
-      </Flex>
+      {isDesktop && (
+        <Fragment>
+          <Avatar
+            size="md"
+            alt={user.name}
+            radius="md"
+            color="blue"
+            src="/user.png"
+          />
+
+          <Flex direction="column" style={{ flex: 1 }}>
+            <Text size="sm" fw={600}>
+              {user.name}
+            </Text>
+            <Text size="xs" fw={400}>
+              {user.email}
+            </Text>
+          </Flex>
+        </Fragment>
+      )}
 
       <Flex direction="row" align="center" gap="sm">
         <NewChat />

@@ -113,7 +113,9 @@ const BaseShell = ({
                 <AppShell.Main>
                   <ScrollArea type="always" h="100vh" pt={60}>
                     <Box
-                      p="sm"
+                      px="sm"
+                      pb="sm"
+                      pt={0}
                       style={{
                         display: 'flex',
                         flexDirection: 'column',

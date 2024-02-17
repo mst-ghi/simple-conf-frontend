@@ -4,6 +4,7 @@ import { EventMenu, EventTimer, useFetchEvent } from '..';
 import { dateView } from '@/utils';
 import { IconClockCheck, IconClockUp, IconClockX } from '@tabler/icons-react';
 import { closeAllModals } from '@mantine/modals';
+import { useThemeStyle } from '@/hooks';
 
 const EventStatus = {
   pending: <IconClockUp size={24} color="white" />,
@@ -12,6 +13,7 @@ const EventStatus = {
 };
 
 const EventCard = ({ event }: { event?: IEvent }) => {
+  const { isDesktop } = useThemeStyle();
   const [eventData, setEventData] = useState<IEvent>();
 
   const { data, refetch } = useFetchEvent(eventData?.id, {
@@ -59,7 +61,7 @@ const EventCard = ({ event }: { event?: IEvent }) => {
         </Flex>
       </Card.Section>
 
-      <Flex direction="row" gap="md">
+      <Flex direction={isDesktop ? 'row' : 'column-reverse'} gap="md">
         <EventTimer
           startDate={new Date(eventData.start_at)}
           duration={eventData.duration}

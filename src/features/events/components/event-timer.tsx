@@ -50,12 +50,14 @@ const EventTimer = ({
   }, [startDate]);
 
   return (
-    <Card shadow="0" px="sm" pt="xs" miw={192} mih={117}>
-      <Center>
-        <Text fw={500} size="sm" c="gray">
-          Remaining
-        </Text>
-      </Center>
+    <Card shadow="0" px="sm" pt="xs" miw={192} h={110}>
+      <Card.Section bg="gray.2" pt={8}>
+        <Center>
+          <Text fw={500} fz="xs" c="gray.6">
+            Remaining
+          </Text>
+        </Center>
+      </Card.Section>
 
       <Center
         style={{
