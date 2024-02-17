@@ -29,7 +29,7 @@ const useFetchMessages = (
   const query = useQuery<{
     messages: IMessage[];
   }>({
-    queryKey: ['messages', room, args],
+    queryKey: ['messages', room.activeId],
     queryFn: fetch,
     enabled: !!room.activeId,
   });

@@ -2,14 +2,7 @@ import { showNotification } from '@mantine/notifications';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import ioClient from 'socket.io-client';
-import {
-  Envs,
-  Events,
-  forceReload,
-  getCookie,
-  removeAllCookies,
-  titleCase,
-} from '@/utils';
+import { Envs, Events, getCookie, titleCase } from '@/utils';
 
 const IoClientConfig: SocketIOClient.ConnectOpts = {
   secure: true,
@@ -27,7 +20,6 @@ interface States {
   socket: SocketIOClient.Socket;
   isConnected?: boolean;
   isDisconnected?: boolean;
-
   room: {
     activeId?: string;
   };
@@ -69,6 +61,14 @@ const socketStates = immer<States & Actions>((set) => {
   });
 
   socket.on(Events.errors.unauthorized, (res: ISocketData<any>) => {
+    showNotification({
+      color: 'red',
+      title: titleCase(res.event.split(':')[1]),
+      message: res.message,
+    });
+  });
+
+  socket.on(Events.errors.message, (res: ISocketData<any>) => {
     showNotification({
       color: 'red',
       title: titleCase(res.event.split(':')[1]),

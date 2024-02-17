@@ -32,6 +32,7 @@ export const Envs = {
 export const Events = {
   errors: {
     unauthorized: 'errors:unauthorized',
+    message: 'errors:message',
   },
   user: {
     me: 'user:me',
@@ -44,6 +45,7 @@ export const Events = {
   },
   message: {
     send: 'message:send',
+    new: 'message:new',
     update: 'message:update',
     delete: 'message:delete',
   },

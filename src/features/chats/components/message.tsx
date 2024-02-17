@@ -9,9 +9,11 @@ const Message = ({ message }: { message: IMessage }) => {
   return (
     <Box dir={isOwner ? 'rtl' : 'ltr'}>
       <Card
-        w="70%"
         withBorder={false}
         style={{
+          maxWidth: '70%',
+          width: 'fit-content',
+          blockSize: 'fit-content',
           borderEndEndRadius: 28,
           borderTopRightRadius: !isOwner ? 28 : undefined,
           borderTopLeftRadius: isOwner ? 28 : undefined,

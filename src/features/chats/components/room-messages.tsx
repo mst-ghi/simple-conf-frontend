@@ -10,6 +10,7 @@ const RoomMessages = () => {
     <Box
       bg="gray.1"
       h={room.activeId ? 606 : 660}
+      pos="relative"
       style={{
         borderRadius: 'var(--mantine-radius-md)',
         padding: 'var(--mantine-spacing-sm)',
@@ -28,7 +29,7 @@ const RoomMessages = () => {
           <Messages initMessages={data?.messages} />
 
           {isFetching && (
-            <Center w="100%">
+            <Center pos="absolute" left={0} top={0} right={0} bottom={0}>
               <Loader />
             </Center>
           )}

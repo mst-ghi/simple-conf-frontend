@@ -10,13 +10,7 @@ const Rooms = () => {
   } = useSocketIO();
 
   return (
-    <Stack gap="md" h="100%">
-      {isFetching && (
-        <Center w="100%" h="100%">
-          <Loader />
-        </Center>
-      )}
-
+    <Stack gap="md" h="100%" pos="relative">
       {!isFetching && (!data?.rooms || !data.rooms[0]) && (
         <Center w="100%">
           <Text
@@ -40,6 +34,12 @@ const Rooms = () => {
           );
         })}
       </ScrollArea>
+
+      {isFetching && (
+        <Center pos="absolute" left={0} top={0} right={0} bottom={0}>
+          <Loader />
+        </Center>
+      )}
     </Stack>
   );
 };

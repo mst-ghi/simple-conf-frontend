@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Message } from '.';
 import { Box, Center, Text } from '@mantine/core';
+import { useSocketIO } from '@/hooks';
+import { Events } from '@/utils';
 
 interface MessagesProps {
   initMessages?: IMessage[];
@@ -8,7 +10,15 @@ interface MessagesProps {
 
 const Messages = ({ initMessages }: MessagesProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const { socket, room } = useSocketIO();
   const [messages, setMessages] = useState<IMessage[]>([]);
+
+  socket.on(Events.message.new, (res: ISocketData<{ message: IMessage }>) => {
+    const message = res.data.message;
+    if (message && message.room_id === room.activeId) {
+      setMessages([message, ...messages]);
+    }
+  });
 
   useEffect(() => {
     if (initMessages) {

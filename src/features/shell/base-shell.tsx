@@ -20,13 +20,7 @@ import { BaseTheme } from '@/utils';
 import { FireFly, FullLoader } from '../common';
 import { useSocketIO } from '@/hooks';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: true,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 interface BaseShellProps extends MantineProviderProps {
   isInvalidToken?: boolean;
