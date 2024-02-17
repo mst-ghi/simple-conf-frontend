@@ -11,7 +11,7 @@ export declare global {
 
   interface ICallRequestResponse {
     message: string;
-    errors: SetStateAction<FormErrors>;
+    errors: any;
     data: object;
     success: boolean;
     unprocessable: boolean;

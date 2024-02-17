@@ -1,9 +1,13 @@
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import Link from 'next/link';
-import { ActionIcon, Flex, Menu } from '@mantine/core';
+import { ActionIcon, Flex, Loader, Menu } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 import { openModal } from '@mantine/modals';
-import { CommunityForm, useCommunityActions } from '..';
+import {
+  CommunityForm,
+  useCommunityActions,
+  useFetchJoinedCommunities,
+} from '..';
 import {
   IconCalendarEvent,
   IconDotsVertical,
@@ -12,6 +16,7 @@ import {
   IconTrash,
   IconLayersUnion,
   IconCalendarPlus,
+  IconLayersOff,
 } from '@tabler/icons-react';
 
 const CommunityMenu = ({
@@ -22,7 +27,16 @@ const CommunityMenu = ({
   done?: () => void;
 }) => {
   const pathname = usePathname();
-  const { isIJoined, isIOwner } = useCommunityActions();
+  const { refetch, isFetching } = useFetchJoinedCommunities();
+  const { loading, isIJoined, isIOwner, joinRequest, leftRequest } =
+    useCommunityActions();
+
+  const isJoinAble = useMemo(() => {
+    if (community) {
+      return !isIJoined(community.id) && !isIOwner(community.owner_id);
+    }
+    return false;
+  }, [community, isFetching]);
 
   if (!community) {
     return null;
@@ -66,7 +80,11 @@ const CommunityMenu = ({
       >
         <Menu.Target>
           <ActionIcon color="white">
-            <IconDotsVertical />
+            {loading || isFetching ? (
+              <Loader color="white" size="xs" />
+            ) : (
+              <IconDotsVertical />
+            )}
           </ActionIcon>
         </Menu.Target>
 
@@ -87,10 +105,24 @@ const CommunityMenu = ({
           <Menu.Item leftSection={<IconCalendarEvent />}>See Events</Menu.Item>
 
           <Menu.Item
-            leftSection={<IconLayersUnion />}
-            disabled={isIJoined(community.id) || isIOwner(community.owner_id)}
+            leftSection={isJoinAble ? <IconLayersUnion /> : <IconLayersOff />}
+            color={isJoinAble ? 'green' : 'orange'}
+            disabled={isIOwner(community.owner_id)}
+            onClick={async () => {
+              if (isJoinAble) {
+                await joinRequest(community.id);
+              } else {
+                await leftRequest(community.id);
+              }
+
+              await refetch();
+
+              if (done) {
+                done();
+              }
+            }}
           >
-            Join
+            {isJoinAble ? 'Join' : 'Left'}
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

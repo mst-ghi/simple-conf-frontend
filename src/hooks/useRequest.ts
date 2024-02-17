@@ -69,7 +69,7 @@ const useRequest = () => {
         let internalError = !res.ok;
         let message;
         let data: any = {};
-        let errors: SetStateAction<FormErrors> = {};
+        let errors: any = {};
 
         if (res.status >= 500 && res.status < 600) {
           internalError = true;
