@@ -9,14 +9,14 @@ const RoomMessages = () => {
   return (
     <Box
       bg="gray.1"
-      h={room.activeId ? 606 : 660}
+      h={room.id ? 606 : 660}
       pos="relative"
       style={{
         borderRadius: 'var(--mantine-radius-md)',
         padding: 'var(--mantine-spacing-sm)',
       }}
     >
-      {!room.activeId && (
+      {!room.id && (
         <Center w="100%" h="100%">
           <Text size="lg" c="gray">
             Click one of rooms
@@ -24,7 +24,7 @@ const RoomMessages = () => {
         </Center>
       )}
 
-      {room.activeId && (
+      {room.id && (
         <Fragment>
           <Messages initMessages={data?.messages} />
 

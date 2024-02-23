@@ -16,13 +16,21 @@ const IoClientConfig: SocketIOClient.ConnectOpts = {
   },
 };
 
+type RoomState = {
+  id?: string;
+  mode?: TRoomMode;
+};
+
+type CallState = {
+  user?: IUserShort;
+};
+
 interface States {
   socket: SocketIOClient.Socket;
   isConnected?: boolean;
   isDisconnected?: boolean;
-  room: {
-    activeId?: string;
-  };
+  room: RoomState;
+  call: CallState;
 }
 
 interface Actions {
@@ -30,19 +38,22 @@ interface Actions {
     connect: () => void;
     disconnect: () => void;
     emit: <T extends {}>(arg: ISocketEmitArgs<T>) => void;
-    setActiveRoomId: (roomId?: string) => void;
+    roomClick: (args: { room: RoomState; call: CallState }) => void;
+    setRoom: (room: RoomState) => void;
+    setCall: (call: CallState) => void;
   };
 }
 
-const InitStoreData: States = {
+const InitStates: States = {
   socket: ioClient(Envs.socket.url, IoClientConfig),
   isConnected: false,
   isDisconnected: true,
-  room: { activeId: undefined },
+  room: { id: undefined, mode: undefined },
+  call: { user: undefined },
 };
 
 const socketStates = immer<States & Actions>((set) => {
-  const { socket } = InitStoreData;
+  const { socket } = InitStates;
 
   socket.on('connect', () => {
     if (Envs.isDev) {
@@ -57,7 +68,7 @@ const socketStates = immer<States & Actions>((set) => {
       console.log('socket disconnected');
     }
 
-    set(InitStoreData);
+    set(InitStates);
   });
 
   socket.on(Events.errors.unauthorized, (res: ISocketData<any>) => {
@@ -77,7 +88,7 @@ const socketStates = immer<States & Actions>((set) => {
   });
 
   return {
-    ...InitStoreData,
+    ...InitStates,
     actions: {
       connect: () => {
         if (getCookie('sub-acc-tkn')) {
@@ -90,13 +101,18 @@ const socketStates = immer<States & Actions>((set) => {
       emit: (arg) => {
         socket.emit(arg.event, arg.data);
       },
-      setActiveRoomId: (activeId?: string) => {
-        set({ room: { activeId } });
+      roomClick: ({ room, call }: { room: RoomState; call: CallState }) => {
+        set({ room, call });
+      },
+      setRoom: (room: RoomState) => {
+        set({ room });
+      },
+      setCall: (call: CallState) => {
+        set({ call });
       },
     },
   };
 });
 
 const useSocketIO = create(socketStates);
-
 export default useSocketIO;

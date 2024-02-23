@@ -1,12 +1,13 @@
-import { RoomCard } from '.';
+import { NewChat, RoomCard } from '.';
 import { useFetchRooms } from '../hooks';
-import { useSocketIO } from '@/hooks';
+import { useApp, useSocketIO } from '@/hooks';
 import { Box, Center, Loader, ScrollArea, Stack, Text } from '@mantine/core';
 
 const Rooms = () => {
+  const { user } = useApp();
   const { data, isFetching } = useFetchRooms();
   const {
-    actions: { setActiveRoomId },
+    actions: { roomClick },
   } = useSocketIO();
 
   return (
@@ -25,10 +26,29 @@ const Rooms = () => {
         </Center>
       )}
 
-      <ScrollArea h={500} type="always" scrollbarSize={8}>
+      <ScrollArea h={500} type="auto" scrollbarSize={8}>
         {data?.rooms.map((room) => {
           return (
-            <Box key={room.id} onClick={() => setActiveRoomId(room.id)}>
+            <Box
+              key={room.id}
+              onClick={() => {
+                let userArg = undefined;
+
+                if (room.mode === 'private') {
+                  userArg = room.users?.find((el) => el.id !== user?.id);
+                }
+
+                roomClick({
+                  room: {
+                    id: room.id,
+                    mode: room.mode,
+                  },
+                  call: {
+                    user: userArg,
+                  },
+                });
+              }}
+            >
               <RoomCard room={room} />
             </Box>
           );
@@ -40,6 +60,10 @@ const Rooms = () => {
           <Loader />
         </Center>
       )}
+
+      <Box pos="absolute" bottom={10} left={0}>
+        <NewChat />
+      </Box>
     </Stack>
   );
 };

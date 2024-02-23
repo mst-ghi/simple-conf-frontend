@@ -1,13 +1,8 @@
+import { Fragment } from 'react';
+import { CallButton } from '@/features/call';
 import { useApp, useSocketIO, useThemeStyle } from '@/hooks';
 import { ActionIcon, Avatar, Flex, Menu, Text } from '@mantine/core';
-import {
-  IconArrowLeft,
-  IconDotsVertical,
-  IconPlus,
-  IconX,
-} from '@tabler/icons-react';
-import { NewChat } from '.';
-import { Fragment } from 'react';
+import { IconArrowLeft, IconDotsVertical, IconX } from '@tabler/icons-react';
 
 const ChatsHeader = () => {
   const { user } = useApp();
@@ -25,8 +20,8 @@ const ChatsHeader = () => {
           variant="light"
           size={36}
           color="gray"
-          disabled={!room.activeId}
-          onClick={() => actions.setActiveRoomId()}
+          disabled={!room.id}
+          onClick={() => actions.setRoom({})}
         >
           <IconArrowLeft size={26} stroke={3} />
         </ActionIcon>
@@ -54,7 +49,12 @@ const ChatsHeader = () => {
       )}
 
       <Flex direction="row" align="center" gap="sm">
-        <NewChat />
+        {room.id && (
+          <CallButton
+            actionIconProps={{ variant: 'light', size: 36, color: 'gray' }}
+            iconProps={{ size: 26, stroke: 3 }}
+          />
+        )}
 
         <Menu position="bottom-end">
           <Menu.Target>
@@ -67,8 +67,8 @@ const ChatsHeader = () => {
             <Menu.Item
               leftSection={<IconX size={20} />}
               color="orange"
-              disabled={!room.activeId}
-              onClick={() => actions.setActiveRoomId(undefined)}
+              disabled={!room.id}
+              onClick={() => actions.setRoom({})}
             >
               <Text size="xs" fw={500}>
                 Close active room

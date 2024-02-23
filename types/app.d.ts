@@ -1,5 +1,6 @@
 import { FormErrors } from '@mantine/form';
 import { SetStateAction } from 'react';
+import { SignalData } from 'simple-peer';
 
 export declare global {
   declare module '*.png' {
@@ -106,5 +107,12 @@ export declare global {
     created_at: string;
     updated_at: string;
     user: IUserShort;
+  }
+
+  interface CallInfo {
+    roomId: string;
+    callingUser: IUserShort;
+    calledUser: IUserShort;
+    signalData: SignalData;
   }
 }

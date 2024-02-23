@@ -19,7 +19,7 @@ const useFetchMessages = (
   const fetch = async (): Promise<{
     messages: IMessage[];
   }> => {
-    let url = `/api/v1/messages?room_id=${room.activeId}&page=${args.page || 0}&take=${args.take || 20}`;
+    let url = `/api/v1/messages?room_id=${room.id}&page=${args.page || 0}&take=${args.take || 20}`;
     if (args.search) {
       url += `&search=${args.search}`;
     }
@@ -29,9 +29,9 @@ const useFetchMessages = (
   const query = useQuery<{
     messages: IMessage[];
   }>({
-    queryKey: ['messages', room.activeId],
+    queryKey: ['messages', room.id],
     queryFn: fetch,
-    enabled: !!room.activeId,
+    enabled: !!room.id,
   });
 
   return { ...query, room };

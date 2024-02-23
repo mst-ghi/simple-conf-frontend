@@ -62,14 +62,9 @@ const EventCard = ({ event }: { event?: IEvent }) => {
       </Card.Section>
 
       <Flex direction={isDesktop ? 'row' : 'column-reverse'} gap="md">
-        <EventTimer
-          startDate={new Date(eventData.start_at)}
-          duration={eventData.duration}
-        />
-
         <Flex direction="column" mt={6} style={{ flex: 1 }}>
           {eventData.community?.owner?.name && (
-            <Text c="gray" tt="capitalize" size="sm" mb={4}>
+            <Text c="gray" tt="capitalize" size="sm" mb={4} mt={-10}>
               {eventData.community?.owner?.name}
             </Text>
           )}
@@ -80,6 +75,11 @@ const EventCard = ({ event }: { event?: IEvent }) => {
 
           <Text>{eventData.description}</Text>
         </Flex>
+
+        <EventTimer
+          startDate={new Date(eventData.start_at)}
+          duration={eventData.duration}
+        />
       </Flex>
     </Card>
   );

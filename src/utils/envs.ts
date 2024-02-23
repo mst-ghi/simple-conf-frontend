@@ -38,6 +38,14 @@ export const Events = {
     me: 'user:me',
     get: 'user:get',
   },
+  call: {
+    calling: 'call:calling',
+    receiving: 'call:receiving',
+    accepted: 'call:accepted',
+    rejected: 'call:rejected',
+    ended: 'call:ended',
+    busy: 'call:busy',
+  },
   room: {
     new: 'room:new',
     update: 'room:update',

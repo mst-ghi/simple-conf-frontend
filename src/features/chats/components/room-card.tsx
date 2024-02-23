@@ -38,7 +38,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
         if (
           message.room_id === room.id &&
           message.user_id !== user?.id &&
-          roomState.activeId !== room.id
+          roomState.id !== room.id
         ) {
           setActive(true);
         }
@@ -53,7 +53,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
         mb={6}
         pos="relative"
         className="room-card"
-        bg={roomState.activeId === room.id ? 'gray.1' : 'gray.0'}
+        bg={roomState.id === room.id ? 'gray.2' : 'gray.0'}
         withBorder={false}
         onClick={() => setActive(false)}
       >

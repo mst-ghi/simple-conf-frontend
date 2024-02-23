@@ -19,6 +19,7 @@ import { PageHeader } from '.';
 import { BaseTheme } from '@/utils';
 import { FireFly, FullLoader } from '../common';
 import { useSocketIO } from '@/hooks';
+import { CallCenter } from '../call';
 
 const queryClient = new QueryClient();
 
@@ -106,6 +107,8 @@ const BaseShell = ({
           >
             {!isLoading && (
               <Fragment>
+                <CallCenter />
+
                 <AppShell.Header>
                   <PageHeader />
                 </AppShell.Header>

@@ -15,7 +15,7 @@ const Messages = ({ initMessages }: MessagesProps) => {
 
   socket.on(Events.message.new, (res: ISocketData<{ message: IMessage }>) => {
     const message = res.data.message;
-    if (message && message.room_id === room.activeId) {
+    if (message && message.room_id === room.id) {
       setMessages([message, ...messages]);
     }
   });

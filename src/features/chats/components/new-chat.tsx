@@ -22,7 +22,13 @@ const NewChat = () => {
   };
 
   return (
-    <ActionIcon variant="light" color="gray" onClick={start} size={36}>
+    <ActionIcon
+      variant="light"
+      color="gray"
+      onClick={start}
+      size={48}
+      radius="xl"
+    >
       <IconPlus size={26} stroke={3} />
     </ActionIcon>
   );

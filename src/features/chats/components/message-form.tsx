@@ -12,15 +12,15 @@ const MessageForm = () => {
   const [content, setContent] = useDebouncedState<string>('', 500);
 
   const isActive = useMemo(() => {
-    return Boolean(content && user?.id && room.activeId);
-  }, [content, user, room.activeId]);
+    return Boolean(content && user?.id && room.id);
+  }, [content, user, room.id]);
 
   const onSendMessage = () => {
     if (isActive) {
       actions.emit({
         event: Events.message.send,
         data: {
-          RoomId: room.activeId,
+          RoomId: room.id,
           Content: content,
         },
       });

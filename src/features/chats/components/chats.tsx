@@ -13,17 +13,17 @@ const Chats = () => {
       </Card.Section>
 
       <Flex direction="row" h="100%" gap="xs">
-        {(isDesktop || !room.activeId) && (
+        {(isDesktop || !room.id) && (
           <Box w={isDesktop ? '30%' : '100%'} h="100%">
             <Rooms />
           </Box>
         )}
 
-        {(isDesktop || room.activeId) && (
+        {(isDesktop || room.id) && (
           <Box style={{ flex: 1 }}>
             <RoomMessages />
 
-            {room.activeId && <MessageForm />}
+            {room.id && <MessageForm />}
           </Box>
         )}
       </Flex>
