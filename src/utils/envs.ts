@@ -7,10 +7,10 @@ export const Envs = {
       'A video conferencing site is a digital platform that enables real-time, face-to-face meetings between users in different locations.',
   },
   api: {
-    url: 'http://localhost:3001',
+    url: 'http://192.168.1.102:3001',
   },
   socket: {
-    url: 'http://localhost:3001',
+    url: 'http://192.168.1.102:3001',
     events: {
       user: {
         me: 'user:me',
@@ -41,8 +41,9 @@ export const Events = {
   call: {
     calling: 'call:calling',
     receiving: 'call:receiving',
+    accepting: 'call:accepting',
     accepted: 'call:accepted',
-    rejected: 'call:rejected',
+    ending: 'call:ending',
     ended: 'call:ended',
     busy: 'call:busy',
   },

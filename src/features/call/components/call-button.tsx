@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ActionIcon, ActionIconProps } from '@mantine/core';
-import { IconPhone, TablerIconsProps } from '@tabler/icons-react';
+import { IconVideo, TablerIconsProps } from '@tabler/icons-react';
 import { CallModal } from '.';
+import { useCall } from '..';
 
 interface CallButtonProps {
   actionIconProps?: ActionIconProps;
@@ -9,12 +10,19 @@ interface CallButtonProps {
 }
 
 const CallButton = ({ actionIconProps, iconProps }: CallButtonProps) => {
+  const { callInfo } = useCall();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!callInfo?.fromRoomId) {
+      setOpen(false);
+    }
+  }, [callInfo]);
 
   return (
     <Fragment>
       <ActionIcon {...actionIconProps} onClick={() => setOpen(true)}>
-        <IconPhone {...iconProps} />
+        <IconVideo {...iconProps} />
       </ActionIcon>
 
       <CallModal calling={open} onClose={() => setOpen(false)} />

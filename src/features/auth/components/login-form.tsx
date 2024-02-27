@@ -23,7 +23,7 @@ const LoginForm = ({
 
   const handleSubmit = async (values: LoginFormValues) => {
     const response = await loginRequest(values, redirectTo);
-    if (response?.unprocessable) {
+    if (response && response?.unprocessable && response.message) {
       loginForm.setFieldError('email', response.message);
     }
   };

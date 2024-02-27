@@ -1,10 +1,16 @@
-import { useEffect } from 'react';
 import Peer from 'simple-peer';
 import { useCallStates } from '.';
 import { useApp, useSocketIO } from '@/hooks';
 import { Events } from '@/utils';
 import { showNotification } from '@mantine/notifications';
-import { InitStates } from './useCallStates';
+
+// const PeerConfig = {
+//   iceServers: [
+//     {
+//       urls: 'stun:stun.l.google.com:19302',
+//     },
+//   ],
+// };
 
 const useCall = () => {
   const { user } = useApp();
@@ -13,126 +19,157 @@ const useCall = () => {
   const {
     callMode,
     callAccepted,
-    callEnded,
-    callRejected,
     callInfo,
     stream,
+    peer,
+    remoteStream,
     actions,
   } = useCallStates();
 
   const stopVideoAudio = () => {
-    if (stream) {
-      stream.getTracks().forEach((track) => {
-        if (track.readyState == 'live') {
-          track.stop();
-        }
-      });
-    }
+    stream?.getTracks().forEach((track) => {
+      if (track.readyState == 'live') {
+        track.stop();
+      }
+    });
   };
 
   const stopVideo = () => {
-    if (stream) {
-      stream.getTracks().forEach((track) => {
-        if (track.readyState == 'live' && track.kind === 'video') {
-          track.stop();
-        }
-      });
-    }
+    stream?.getTracks().forEach((track) => {
+      if (track.readyState == 'live' && track.kind === 'video') {
+        track.stop();
+      }
+    });
   };
 
   const stopAudio = () => {
-    if (stream) {
-      stream.getTracks().forEach((track) => {
-        if (track.readyState == 'live' && track.kind === 'audio') {
-          track.stop();
-        }
-      });
-    }
+    stream?.getTracks().forEach((track) => {
+      if (track.readyState == 'live' && track.kind === 'audio') {
+        track.stop();
+      }
+    });
   };
 
   const streamON = (constraints: MediaStreamConstraints) => {
-    if (!stream) {
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((currentStream) => {
-          actions.setStream(currentStream);
-        })
-        .catch((err) => {
-          showNotification({ color: 'red', message: err.message });
-        });
-    }
+    navigator.mediaDevices
+      .getUserMedia({ ...constraints, audio: false })
+      .then((currentStream: any) => {
+        actions.setStream(currentStream);
+      })
+      .catch((err: any) => {
+        showNotification({ color: 'red', message: err.message });
+      });
   };
 
   const streamOFF = () => {
-    if (stream) {
-      stopVideoAudio();
-      actions.setStream(undefined);
-    }
+    stopVideoAudio();
   };
 
-  const audioCall = () => {
-    const calledUser = call.user;
+  const calling = () => {
+    const toUser = call.user;
 
-    if (socket && calledUser?.id) {
-      const callingUser = {
-        id: user?.id,
-        name: user?.name,
-        email: user?.email,
-      };
+    if (toUser && user && stream) {
+      const callingPeer = new Peer({
+        initiator: true,
+        trickle: false,
+        // config: PeerConfig,
+        stream,
+      });
 
-      console.log('calledUser', calledUser);
-      console.log('callingUser', callingUser);
+      callingPeer.on('signal', (signalData: Peer.SignalData) => {
+        const callingData: CallInfo = {
+          toRoomId: toUser.id,
+          toUser: {
+            id: toUser.id,
+            email: toUser.email,
+            name: toUser.name,
+          },
+          fromRoomId: user.id,
+          fromUser: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          },
+          offer: signalData,
+        };
 
-      const peer = new Peer({ initiator: true, trickle: false, stream });
-
-      peer.on('signal', (signalData: Peer.SignalData) => {
-        socket.emit(Events.call.calling, {
-          roomId: calledUser.id,
-          callingUser,
-          calledUser,
-          signalData,
+        actions.setStates({
+          callMode: 'out',
+          callInfo: callingData,
         });
+
+        socket.emit(Events.call.calling, callingData);
       });
 
-      actions.setPeer(peer);
+      callingPeer.on('stream', (currentStream) => {
+        actions.setRemoteStream(currentStream);
+        console.warn('CALLING STREAM EVENT');
+      });
+
+      callingPeer.on('connect', () => {
+        console.warn('CALLING PEER CONNECT');
+      });
+
+      actions.setPeer(callingPeer);
     }
   };
 
-  const callAccept = () => {
-    if (stream && socket) {
-      actions.setStates({
-        callAccepted: true,
-        callRejected: undefined,
-        callEnded: undefined,
+  const acceptCall = () => {
+    if (callInfo && stream) {
+      actions.setCallAccepted(true);
+
+      const acceptPeer = new Peer({
+        initiator: false,
+        trickle: false,
+        // config: PeerConfig,
+        stream,
       });
 
-      const peer = new Peer({ initiator: false, trickle: false, stream });
+      acceptPeer.on('signal', (signalData: Peer.SignalData) => {
+        const acceptData: CallInfo = {
+          ...callInfo,
+          answer: signalData,
+        };
 
-      peer.on('signal', (signalData: Peer.SignalData) => {
-        socket.emit(Events.call.accepted, { ...callInfo, signalData });
+        socket.emit(Events.call.accepting, acceptData);
+
+        actions.setCallInfo(acceptData);
       });
 
-      actions.setPeer(peer);
+      acceptPeer.on('stream', (currentStream) => {
+        actions.setRemoteStream(currentStream);
+        console.warn('ACCEPTING STREAM EVENT');
+      });
+
+      acceptPeer.on('connect', () => {
+        console.warn('ACCEPTING PEER CONNECT');
+      });
+
+      acceptPeer.signal(callInfo.offer);
+
+      actions.setPeer(acceptPeer);
     }
   };
 
-  const rejectAccept = () => {
-    //
+  const endCall = () => {
+    if (stream) {
+      socket.emit(Events.call.ending, callInfo);
+    }
   };
 
-  const endAccept = () => {
-    //
-  };
+  socket.on(Events.call.ended, () => {
+    streamOFF();
+    actions.reset();
+  });
 
   return {
-    initStates: InitStates,
     call,
     callMode,
     callAccepted,
-    callEnded,
-    callRejected,
     callInfo,
     stream,
+    peer,
+    remoteStream,
     actions: {
       ...actions,
       streamON,
@@ -140,8 +177,9 @@ const useCall = () => {
       stopVideoAudio,
       stopVideo,
       stopAudio,
-      audioCall,
-      callAccept,
+      calling,
+      acceptCall,
+      endCall,
     },
   };
 };

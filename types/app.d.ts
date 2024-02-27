@@ -110,9 +110,13 @@ export declare global {
   }
 
   interface CallInfo {
-    roomId: string;
-    callingUser: IUserShort;
-    calledUser: IUserShort;
-    signalData: SignalData;
+    fromRoomId: string;
+    fromUser: IUserShort;
+
+    toRoomId: string;
+    toUser: IUserShort;
+
+    offer: SignalData;
+    answer?: SignalData;
   }
 }

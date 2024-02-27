@@ -56,8 +56,8 @@ const useRequest = () => {
       method,
       body,
       headers,
-      mode: 'cors',
-      cache: 'no-store',
+      // mode: 'cors',
+      // cache: 'no-store',
       next: {
         revalidate: 360, // 6 minutes
         tags: init?.tags,
@@ -106,11 +106,11 @@ const useRequest = () => {
           internalError,
         };
       })
-      .catch((err) => {
+      .catch(() => {
         showNotification({
           color: 'red',
-          message:
-            err.message || 'Internal server error. Please contact support',
+          title: 'Internal server error',
+          message: 'Please contact support.',
         });
       })
       .finally(() => {

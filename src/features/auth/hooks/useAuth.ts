@@ -76,14 +76,16 @@ const useAuth = () => {
         },
       );
 
-      if (response?.success) {
-        setTokensToCookies(response.tokens);
-        forceReload(redirectUrl);
-      } else {
-        showNotification({
-          color: 'red',
-          message: response.message,
-        });
+      if (response) {
+        if (response?.success) {
+          setTokensToCookies(response.tokens);
+          forceReload(redirectUrl);
+        } else {
+          showNotification({
+            color: 'red',
+            message: response.message,
+          });
+        }
       }
     } catch (error) {
       console.log('loginRequest', error);
@@ -109,13 +111,15 @@ const useAuth = () => {
         body,
       });
 
-      if (response?.success) {
-        forceReload(redirectUrl);
-      } else {
-        showNotification({
-          color: 'red',
-          message: response.message,
-        });
+      if (response) {
+        if (response?.success) {
+          forceReload(redirectUrl);
+        } else {
+          showNotification({
+            color: 'red',
+            message: response.message,
+          });
+        }
       }
     } catch (error) {
       console.log('registerRequest', error);
