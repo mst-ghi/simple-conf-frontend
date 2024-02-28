@@ -2,7 +2,14 @@
 
 import { useCall } from '..';
 import { Fragment, useEffect, useRef } from 'react';
-import { IconPhoneCalling, IconPhoneX } from '@tabler/icons-react';
+import {
+  IconPhoneCalling,
+  IconPhoneX,
+  IconVideo,
+  IconVideoOff,
+  IconVolume,
+  IconVolumeOff,
+} from '@tabler/icons-react';
 import {
   ActionIcon,
   Avatar,
@@ -30,6 +37,7 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
     callMode,
     stream,
     remoteStream,
+    tracks,
     actions,
   } = useCall();
 
@@ -48,14 +56,12 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
   useEffect(() => {
     if (localVideoRef.current && stream) {
       localVideoRef.current.srcObject = stream;
-      console.log('LOCAL_VIDEO_REF');
     }
   }, [localVideoRef.current, stream]);
 
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream;
-      console.log('REMOTE_VIDEO_REF');
     }
   }, [remoteVideoRef.current, remoteStream]);
 
@@ -86,9 +92,10 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
               component="video"
               ref={remoteVideoRef}
               autoPlay
+              shadow="xs"
               pos="absolute"
               w="100%"
-              h="100%"
+              h={280}
               left={0}
               top={0}
               bottom={0}
@@ -99,11 +106,12 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
               component="video"
               ref={localVideoRef}
               autoPlay
+              shadow="xs"
               pos="absolute"
               px={4}
               py={0}
-              top={20}
-              right={0}
+              top={4}
+              right={4}
               h={80}
               w={80}
             />
@@ -136,36 +144,68 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
           </Fragment>
         )}
 
-        <Flex direction="row" align="center" justify="space-around" gap="xl">
-          {callMode === 'in' &&
-            !callAccepted &&
-            callInfo &&
-            callInfo.toUser.id === user?.id && (
-              <ActionIcon
-                color="green"
-                size={54}
-                radius="50%"
-                onClick={() => {
-                  actions.acceptCall();
-                }}
-              >
-                <IconPhoneCalling size={32} stroke={3} />
-              </ActionIcon>
+        <Box pos="absolute" bottom={0} left={0} right={0} w="100%" h={60}>
+          <Flex direction="row" align="center" justify="space-around">
+            {callMode === 'in' &&
+              !callAccepted &&
+              callInfo &&
+              callInfo.toUser.id === user?.id && (
+                <ActionIcon
+                  color="green"
+                  size={54}
+                  radius="50%"
+                  onClick={() => {
+                    actions.acceptCall();
+                  }}
+                >
+                  <IconPhoneCalling size={32} />
+                </ActionIcon>
+              )}
+
+            {callAccepted && stream && (
+              <Fragment>
+                <ActionIcon
+                  color={tracks.video ? 'blue' : undefined}
+                  size={54}
+                  radius="50%"
+                  onClick={actions.toggleVideo}
+                >
+                  {tracks.video ? (
+                    <IconVideo size={32} />
+                  ) : (
+                    <IconVideoOff size={32} />
+                  )}
+                </ActionIcon>
+
+                <ActionIcon
+                  color={tracks.audio ? 'blue' : undefined}
+                  size={54}
+                  radius="50%"
+                  onClick={actions.toggleAudio}
+                >
+                  {tracks.audio ? (
+                    <IconVolume size={32} />
+                  ) : (
+                    <IconVolumeOff size={32} />
+                  )}
+                </ActionIcon>
+              </Fragment>
             )}
 
-          <ActionIcon
-            disabled={!Boolean(callInfo)}
-            color="red"
-            size={54}
-            radius="50%"
-            onClick={async () => {
-              await actions.endCall();
-              close();
-            }}
-          >
-            <IconPhoneX size={32} stroke={3} />
-          </ActionIcon>
-        </Flex>
+            <ActionIcon
+              disabled={!Boolean(callInfo)}
+              color="red"
+              size={54}
+              radius="50%"
+              onClick={async () => {
+                await actions.endCall();
+                close();
+              }}
+            >
+              <IconPhoneX size={32} />
+            </ActionIcon>
+          </Flex>
+        </Box>
       </Card>
     </Modal>
   );

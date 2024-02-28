@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { CallModal, useCall } from '..';
 import { Events } from '@/utils';
 import { useSocketIO } from '@/hooks';
-
 const CallProvider = () => {
   const { socket, actions: socketActions } = useSocketIO();
   const { callInfo, stream, callMode, peer, actions } = useCall();
@@ -10,17 +9,21 @@ const CallProvider = () => {
   useEffect(() => {
     socket.on(Events.call.receiving, (res: ISocketData<CallInfo>) => {
       if (res) {
-        if (!stream) {
-          actions.streamON({ video: true, audio: true });
+        if (callInfo?.fromUser) {
+          socket.emit(Events.call.busy, res.data);
+        } else {
+          if (!stream) {
+            actions.streamON({ video: true, audio: true });
+          }
+
+          socketActions.setCall({ user: res.data.fromUser });
+
+          actions.setStates({
+            callInfo: res.data,
+            callMode: 'in',
+            callAccepted: false,
+          });
         }
-
-        socketActions.setCall({ user: res.data.fromUser });
-
-        actions.setStates({
-          callInfo: res.data,
-          callMode: 'in',
-          callAccepted: false,
-        });
       }
     });
 

@@ -3,14 +3,7 @@ import { useCallStates } from '.';
 import { useApp, useSocketIO } from '@/hooks';
 import { Events } from '@/utils';
 import { showNotification } from '@mantine/notifications';
-
-// const PeerConfig = {
-//   iceServers: [
-//     {
-//       urls: 'stun:stun.l.google.com:19302',
-//     },
-//   ],
-// };
+import { useSetState } from '@mantine/hooks';
 
 const useCall = () => {
   const { user } = useApp();
@@ -25,6 +18,8 @@ const useCall = () => {
     remoteStream,
     actions,
   } = useCallStates();
+
+  const [tracks, setTracks] = useSetState({ audio: true, video: true });
 
   const stopVideoAudio = () => {
     stream?.getTracks().forEach((track) => {
@@ -50,9 +45,28 @@ const useCall = () => {
     });
   };
 
+  const toggleAudio = () => {
+    if (stream) {
+      setTracks({ audio: !stream.getAudioTracks()[0].enabled });
+      stream.getAudioTracks()[0].enabled = !stream.getAudioTracks()[0].enabled;
+    }
+  };
+
+  const toggleVideo = () => {
+    if (stream) {
+      setTracks({ video: !stream.getVideoTracks()[0].enabled });
+      stream.getVideoTracks()[0].enabled = !stream.getVideoTracks()[0].enabled;
+    }
+  };
+
   const streamON = (constraints: MediaStreamConstraints) => {
+    setTracks({
+      audio: Boolean(constraints.audio),
+      video: Boolean(constraints.video),
+    });
+
     navigator.mediaDevices
-      .getUserMedia({ ...constraints, audio: false })
+      .getUserMedia(constraints)
       .then((currentStream: any) => {
         actions.setStream(currentStream);
       })
@@ -72,7 +86,6 @@ const useCall = () => {
       const callingPeer = new Peer({
         initiator: true,
         trickle: false,
-        // config: PeerConfig,
         stream,
       });
 
@@ -103,11 +116,6 @@ const useCall = () => {
 
       callingPeer.on('stream', (currentStream) => {
         actions.setRemoteStream(currentStream);
-        console.warn('CALLING STREAM EVENT');
-      });
-
-      callingPeer.on('connect', () => {
-        console.warn('CALLING PEER CONNECT');
       });
 
       actions.setPeer(callingPeer);
@@ -121,7 +129,6 @@ const useCall = () => {
       const acceptPeer = new Peer({
         initiator: false,
         trickle: false,
-        // config: PeerConfig,
         stream,
       });
 
@@ -138,11 +145,6 @@ const useCall = () => {
 
       acceptPeer.on('stream', (currentStream) => {
         actions.setRemoteStream(currentStream);
-        console.warn('ACCEPTING STREAM EVENT');
-      });
-
-      acceptPeer.on('connect', () => {
-        console.warn('ACCEPTING PEER CONNECT');
       });
 
       acceptPeer.signal(callInfo.offer);
@@ -162,6 +164,12 @@ const useCall = () => {
     actions.reset();
   });
 
+  socket.on(Events.call.busy, () => {
+    showNotification({ color: 'orange', message: 'The audience is talking' });
+    streamOFF();
+    actions.reset();
+  });
+
   return {
     call,
     callMode,
@@ -170,6 +178,7 @@ const useCall = () => {
     stream,
     peer,
     remoteStream,
+    tracks,
     actions: {
       ...actions,
       streamON,
@@ -177,6 +186,8 @@ const useCall = () => {
       stopVideoAudio,
       stopVideo,
       stopAudio,
+      toggleAudio,
+      toggleVideo,
       calling,
       acceptCall,
       endCall,
