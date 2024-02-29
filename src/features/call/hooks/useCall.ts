@@ -21,30 +21,6 @@ const useCall = () => {
 
   const [tracks, setTracks] = useSetState({ audio: true, video: true });
 
-  const stopVideoAudio = () => {
-    stream?.getTracks().forEach((track) => {
-      if (track.readyState == 'live') {
-        track.stop();
-      }
-    });
-  };
-
-  const stopVideo = () => {
-    stream?.getTracks().forEach((track) => {
-      if (track.readyState == 'live' && track.kind === 'video') {
-        track.stop();
-      }
-    });
-  };
-
-  const stopAudio = () => {
-    stream?.getTracks().forEach((track) => {
-      if (track.readyState == 'live' && track.kind === 'audio') {
-        track.stop();
-      }
-    });
-  };
-
   const toggleAudio = () => {
     if (stream) {
       setTracks({ audio: !stream.getAudioTracks()[0].enabled });
@@ -76,7 +52,15 @@ const useCall = () => {
   };
 
   const streamOFF = () => {
-    stopVideoAudio();
+    peer?.destroy();
+
+    stream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+
+    remoteStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
   };
 
   const calling = () => {
@@ -119,6 +103,26 @@ const useCall = () => {
       });
 
       actions.setPeer(callingPeer);
+
+      socket.on(Events.call.offline, () => {
+        streamOFF();
+        actions.reset();
+        showNotification({
+          color: 'orange',
+          title: 'Offline',
+          message: 'The audience is offline',
+        });
+      });
+
+      socket.on(Events.call.busy, () => {
+        streamOFF();
+        actions.reset();
+        showNotification({
+          color: 'orange',
+          title: 'Busy',
+          message: 'The audience is busy',
+        });
+      });
     }
   };
 
@@ -159,17 +163,6 @@ const useCall = () => {
     }
   };
 
-  socket.on(Events.call.ended, () => {
-    streamOFF();
-    actions.reset();
-  });
-
-  socket.on(Events.call.busy, () => {
-    showNotification({ color: 'orange', message: 'The audience is talking' });
-    streamOFF();
-    actions.reset();
-  });
-
   return {
     call,
     callMode,
@@ -183,9 +176,6 @@ const useCall = () => {
       ...actions,
       streamON,
       streamOFF,
-      stopVideoAudio,
-      stopVideo,
-      stopAudio,
       toggleAudio,
       toggleVideo,
       calling,

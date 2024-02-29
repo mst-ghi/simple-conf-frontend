@@ -1,8 +1,16 @@
+import Peer from 'simple-peer';
 import { Fragment, useEffect, useState } from 'react';
 import { ActionIcon, ActionIconProps } from '@mantine/core';
-import { IconVideo, TablerIconsProps } from '@tabler/icons-react';
+import { showNotification } from '@mantine/notifications';
+
 import { CallModal } from '.';
 import { useCall } from '..';
+
+import {
+  IconAlertCircle,
+  IconVideo,
+  TablerIconsProps,
+} from '@tabler/icons-react';
 
 interface CallButtonProps {
   actionIconProps?: ActionIconProps;
@@ -21,7 +29,20 @@ const CallButton = ({ actionIconProps, iconProps }: CallButtonProps) => {
 
   return (
     <Fragment>
-      <ActionIcon {...actionIconProps} onClick={() => setOpen(true)}>
+      <ActionIcon
+        {...actionIconProps}
+        onClick={() => {
+          if (Peer.WEBRTC_SUPPORT) {
+            setOpen(true);
+          } else {
+            showNotification({
+              icon: <IconAlertCircle />,
+              color: 'red',
+              message: 'WebRTC is not supporting on your browser',
+            });
+          }
+        }}
+      >
         <IconVideo {...iconProps} />
       </ActionIcon>
 

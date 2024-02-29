@@ -33,7 +33,7 @@ const InitStates: States = {
   peer: undefined,
 };
 
-const callStates = immer<States & Actions>((set) => {
+const callStates = immer<States & Actions>((set, get) => {
   return {
     ...InitStates,
     actions: {

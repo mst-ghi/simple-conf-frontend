@@ -45,8 +45,8 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
   const close = () => {
-    actions.streamOFF();
-    actions.reset();
+    // actions.streamOFF();
+    // actions.reset();
 
     if (onClose) {
       onClose();

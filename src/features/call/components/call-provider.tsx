@@ -2,14 +2,20 @@ import { useEffect } from 'react';
 import { CallModal, useCall } from '..';
 import { Events } from '@/utils';
 import { useSocketIO } from '@/hooks';
+
 const CallProvider = () => {
   const { socket, actions: socketActions } = useSocketIO();
   const { callInfo, stream, callMode, peer, actions } = useCall();
 
+  socket.on(Events.call.ended, () => {
+    actions.streamOFF();
+    actions.reset();
+  });
+
   useEffect(() => {
     socket.on(Events.call.receiving, (res: ISocketData<CallInfo>) => {
       if (res) {
-        if (callInfo?.fromUser) {
+        if (callInfo?.fromRoomId) {
           socket.emit(Events.call.busy, res.data);
         } else {
           if (!stream) {

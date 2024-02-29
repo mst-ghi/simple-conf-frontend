@@ -39,6 +39,7 @@ export const Events = {
     get: 'user:get',
   },
   call: {
+    offline: 'call:offline',
     calling: 'call:calling',
     receiving: 'call:receiving',
     accepting: 'call:accepting',
