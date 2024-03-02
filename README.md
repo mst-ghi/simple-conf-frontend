@@ -1,6 +1,8 @@
 # Video Conf Frontend Project
 
 [Backend Source Code](https://github.com/mst-ghi/video-conf-backend)
+<br />
+**Development is ongoing...**
 
 ## Description
 
