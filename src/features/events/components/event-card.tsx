@@ -43,7 +43,7 @@ const EventCard = ({ event }: { event?: IEvent }) => {
 
   return (
     <Card shadow="md">
-      <Card.Section h={36} bg="dark" mb="sm">
+      <Card.Section h={54} bg="dark" mb="sm">
         <Flex
           direction="row"
           align="center"
