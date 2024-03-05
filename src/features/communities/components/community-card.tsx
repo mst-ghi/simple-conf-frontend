@@ -1,23 +1,30 @@
-import { CommunityMenu } from '.';
-import { closeAllModals } from '@mantine/modals';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import { Avatar, Card, Divider, Flex, Group, Text, Title } from '@mantine/core';
+import Link from 'next/link';
+import { IconArrowRight } from '@tabler/icons-react';
+
 import { useEffect, useState } from 'react';
 import { useFetchCommunity } from '..';
+import { useHover } from '@mantine/hooks';
+
+import {
+  Avatar,
+  Button,
+  Card,
+  Divider,
+  Flex,
+  Group,
+  Text,
+  Title,
+} from '@mantine/core';
 
 const CommunityCard = ({ community }: { community?: ICommunity }) => {
+  const { ref, hovered } = useHover();
   const [communityData, setCommunityData] = useState<ICommunity>();
 
-  const { data, refetch } = useFetchCommunity(communityData?.id, {
+  const { data } = useFetchCommunity(communityData?.id, {
     enabled: false,
   });
 
   const isActive = communityData?.status === 'active';
-
-  const onFormDoneAction = () => {
-    closeAllModals();
-    refetch();
-  };
 
   useEffect(() => {
     if (community) {
@@ -36,7 +43,7 @@ const CommunityCard = ({ community }: { community?: ICommunity }) => {
   }
 
   return (
-    <Card shadow="md">
+    <Card ref={ref} shadow={hovered ? 'lg' : 'md'}>
       <Card.Section h={54} bg="dark" mb="sm">
         <Flex
           direction="row"
@@ -46,18 +53,19 @@ const CommunityCard = ({ community }: { community?: ICommunity }) => {
           px="md"
         >
           <Flex direction="row" align="center" gap={2}>
-            {isActive ? (
-              <IconCheck size={22} color="white" />
-            ) : (
-              <IconX size={22} color="orange" />
-            )}
-
             <Text c={isActive ? 'white' : 'orange'} tt="capitalize">
               {communityData.status}
             </Text>
           </Flex>
 
-          <CommunityMenu community={communityData} done={onFormDoneAction} />
+          <Button
+            component={Link}
+            href={`/communities/${communityData.id}`}
+            variant="filled"
+            rightSection={<IconArrowRight />}
+          >
+            See Details
+          </Button>
         </Flex>
       </Card.Section>
 
