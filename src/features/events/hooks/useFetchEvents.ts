@@ -9,7 +9,7 @@ const useFetchEvents = (
     own?: boolean;
   } = {
     page: 0,
-    take: 20,
+    take: 3,
     own: false,
   },
 ) => {
@@ -17,9 +17,10 @@ const useFetchEvents = (
 
   const fetchConversations = async (): Promise<{
     events: IEvent[];
+    meta: IPaginationMeta;
   }> => {
     let url = `/api/v1/events${args.own ? '/own' : ''}?page=${args.page || 0}&take=${
-      args.take || 20
+      args.take || 3
     }`;
     if (args.search) {
       url += `&search=${args.search}`;
@@ -29,6 +30,7 @@ const useFetchEvents = (
 
   const query = useQuery<{
     events: IEvent[];
+    meta: IPaginationMeta;
   }>({
     queryKey: ['events', args],
     queryFn: fetchConversations,

@@ -10,9 +10,17 @@ export declare global {
 
   type MakeRequestMethods = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
+  interface IPaginationMeta {
+    total_rows: number;
+    total_pages: number;
+    page: number;
+    take: number;
+  }
+
   interface ICallRequestResponse {
     message: string;
     errors: any;
+    meta?: PaginationMeta;
     data: object;
     success: boolean;
     unprocessable: boolean;

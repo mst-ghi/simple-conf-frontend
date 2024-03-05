@@ -70,6 +70,7 @@ const useRequest = () => {
         let message;
         let data: any = {};
         let errors: any = {};
+        let meta: any = {};
 
         if (res.status >= 500 && res.status < 600) {
           internalError = true;
@@ -85,6 +86,7 @@ const useRequest = () => {
           message = response.message;
           data = response.data || {};
           errors = response.errors || {};
+          meta = response.data?.meta || {};
 
           if (internalError) {
             showNotification({
@@ -100,6 +102,7 @@ const useRequest = () => {
         return {
           ...data,
           errors,
+          meta,
           message,
           success,
           unprocessable,
