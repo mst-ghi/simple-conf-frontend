@@ -74,6 +74,7 @@ export declare global {
     events?: IEvent[];
   }
 
+  type TEventMode = 'public' | 'private';
   type TEventStatus = 'pending' | 'started' | 'finished';
   interface IEvent {
     id: string;
@@ -81,6 +82,7 @@ export declare global {
     title: string;
     description: string;
     duration: number;
+    mode: TEventMode;
     status: TEventStatus;
     start_at: string;
     created_at: string;

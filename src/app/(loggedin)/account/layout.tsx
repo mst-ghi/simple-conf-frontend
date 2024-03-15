@@ -59,6 +59,7 @@ export default function AccountLayout({
           })}
         </Tabs.List>
       </Tabs>
+
       {children}
     </Box>
   );

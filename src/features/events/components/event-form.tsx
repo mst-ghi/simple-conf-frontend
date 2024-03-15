@@ -1,18 +1,30 @@
-import { useForm, zodResolver } from '@mantine/form';
-import { DateTimePicker } from '@mantine/dates';
-import { IconChevronRight, IconLetterCase } from '@tabler/icons-react';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { z } from 'zod';
-import { useEventRequests } from '..';
-import dayjs from 'dayjs';
+
+import { useForm, zodResolver } from '@mantine/form';
+import { DateTimePicker } from '@mantine/dates';
 import {
+  IconAlertCircle,
+  IconChevronRight,
+  IconLetterCase,
+} from '@tabler/icons-react';
+
+import { useEventRequests } from '..';
+import { CommunitySelect } from '@/features/communities';
+import {
+  Alert,
   Box,
   Button,
   Card,
+  Center,
   Flex,
   Grid,
+  Overlay,
+  SegmentedControl,
   Select,
   Slider,
+  Stack,
   Text,
   TextInput,
   Textarea,
@@ -26,6 +38,7 @@ type EventFormValues = {
   description: string;
   duration: number;
   start_at: Date;
+  mode: TEventMode;
   status: TEventStatus;
 };
 
@@ -58,7 +71,8 @@ const EventForm = ({
       community_id: '',
       title: '',
       description: '',
-      duration: 1,
+      duration: 5,
+      mode: 'public',
       status: 'pending',
       start_at: new Date(),
     },
@@ -111,11 +125,54 @@ const EventForm = ({
   }, [event]);
 
   return (
-    <Card withBorder={!event?.id} pt={event?.id ? 0 : undefined}>
-      {!event?.id && <Title order={2}>Create Your Own Event</Title>}
+    <Stack pt={event?.id ? 0 : undefined} gap="md">
+      <Title order={2}>
+        {event?.id ? `Update ${event.title}` : 'Create Your Own Event'}{' '}
+      </Title>
 
-      <Box>
+      <Card>
+        <Alert
+          icon={<IconAlertCircle />}
+          mb="sm"
+          color="dark"
+          title="First, find your community and select them"
+        />
+
+        <CommunitySelect
+          communityId={form.values.community_id}
+          onSelect={(community) =>
+            form.setFieldValue('community_id', community?.id || '')
+          }
+        />
+      </Card>
+
+      <Card pos="relative">
+        {!form.values.community_id && <Overlay blur={2} color="#ffffff" />}
         <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Card p="xs">
+            <Text size="sm" mb="xs" fw={500}>
+              Duration
+            </Text>
+            <Flex direction="row" align="center">
+              <Box style={{ display: 'flex', flex: 1 }}>
+                <Slider
+                  w="100%"
+                  step={5}
+                  min={5}
+                  max={240}
+                  thumbChildren={<IconChevronRight size="1.5rem" />}
+                  thumbSize={22}
+                  styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
+                  {...form.getInputProps('duration')}
+                />
+              </Box>
+
+              <Text ml="xs" fw={500} size="sm">
+                {form.values.duration} Minute
+              </Text>
+            </Flex>
+          </Card>
+
           <TextInput
             withAsterisk
             minLength={2}
@@ -171,44 +228,39 @@ const EventForm = ({
             </Grid.Col>
           </Grid>
 
-          <Card mt={14}>
-            <Text size="sm" fw={500}>
-              Duration
-            </Text>
-            <Flex direction="row" align="center">
-              <Box style={{ display: 'flex', flex: 1 }}>
-                <Slider
+          <Grid mt={28}>
+            <Grid.Col span={3}>
+              <Center h="100%">
+                <SegmentedControl
                   w="100%"
-                  step={1}
-                  min={1}
-                  max={240}
-                  thumbChildren={<IconChevronRight size="1.5rem" />}
-                  thumbSize={22}
-                  styles={{ thumb: { borderWidth: rem(2), padding: rem(3) } }}
-                  {...form.getInputProps('duration')}
+                  h={54}
+                  size="lg"
+                  data={[
+                    { label: 'Public', value: 'public' },
+                    { label: 'Private', value: 'private' },
+                  ]}
+                  {...form.getInputProps('mode')}
                 />
-              </Box>
+              </Center>
+            </Grid.Col>
 
-              <Text ml="xs" fw={500} size="sm">
-                {form.values.duration} Minute
-              </Text>
-            </Flex>
-          </Card>
-
-          <Button
-            type="submit"
-            variant="light"
-            mt={30}
-            size="lg"
-            fullWidth
-            loading={loading}
-            disabled={!form.isValid()}
-          >
-            {event?.id ? 'Update' : 'Create'}
-          </Button>
+            <Grid.Col span={9}>
+              <Button
+                type="submit"
+                variant="light"
+                h={54}
+                size="lg"
+                fullWidth
+                loading={loading}
+                disabled={!form.isValid()}
+              >
+                {event?.id ? 'Update' : 'Create'}
+              </Button>
+            </Grid.Col>
+          </Grid>
         </form>
-      </Box>
-    </Card>
+      </Card>
+    </Stack>
   );
 };
 
