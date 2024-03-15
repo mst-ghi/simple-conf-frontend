@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import { CallButton } from '@/features/call';
 import { useApp, useSocketIO, useThemeStyle } from '@/hooks';
-import { ActionIcon, Avatar, Flex, Menu, Text } from '@mantine/core';
-import { IconArrowLeft, IconDotsVertical, IconX } from '@tabler/icons-react';
+import { ActionIcon, Avatar, Flex, Text } from '@mantine/core';
+import { IconArrowLeft, IconX } from '@tabler/icons-react';
 
 const ChatsHeader = () => {
   const { user } = useApp();
@@ -48,35 +48,23 @@ const ChatsHeader = () => {
         </Fragment>
       )}
 
-      <Flex direction="row" align="center" gap="sm">
-        {room.id && (
+      {room.id && (
+        <Flex direction="row" align="center" gap="sm">
           <CallButton
-            actionIconProps={{ variant: 'light', size: 36, color: 'gray' }}
+            actionIconProps={{ variant: 'light', size: 36, color: 'green' }}
             iconProps={{ size: 26, stroke: 3 }}
           />
-        )}
 
-        <Menu position="bottom-end">
-          <Menu.Target>
-            <ActionIcon variant="light" size={36} color="gray">
-              <IconDotsVertical size={26} stroke={3} />
-            </ActionIcon>
-          </Menu.Target>
-
-          <Menu.Dropdown>
-            <Menu.Item
-              leftSection={<IconX size={20} />}
-              color="orange"
-              disabled={!room.id}
-              onClick={() => actions.setRoom({})}
-            >
-              <Text size="xs" fw={500}>
-                Close active room
-              </Text>
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      </Flex>
+          <ActionIcon
+            variant="light"
+            size={36}
+            color="orange"
+            onClick={() => actions.setRoom({})}
+          >
+            <IconX size={26} stroke={3} />
+          </ActionIcon>
+        </Flex>
+      )}
     </Flex>
   );
 };
