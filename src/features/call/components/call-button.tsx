@@ -18,7 +18,7 @@ interface CallButtonProps {
 }
 
 const CallButton = ({ actionIconProps, iconProps }: CallButtonProps) => {
-  const { callInfo } = useCall();
+  const { callInfo, userMediaError } = useCall();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -26,6 +26,18 @@ const CallButton = ({ actionIconProps, iconProps }: CallButtonProps) => {
       setOpen(false);
     }
   }, [callInfo]);
+
+  useEffect(() => {
+    if (userMediaError) {
+      const timeoutId = setTimeout(() => {
+        setOpen(false);
+      }, 1500);
+
+      return () => clearTimeout(timeoutId);
+    }
+
+    return () => {};
+  }, [userMediaError]);
 
   return (
     <Fragment>

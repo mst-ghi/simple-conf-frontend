@@ -4,6 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 interface States {
   callMode?: 'in' | 'out';
+  userMediaError?: boolean;
   callAccepted?: boolean;
   callInfo?: CallInfo;
   stream?: MediaStream;
@@ -15,6 +16,7 @@ interface Actions {
   actions: {
     reset: () => void;
     setCallMode: (callMode?: 'in' | 'out') => void;
+    setUserMediaError: (userMediaError?: boolean) => void;
     setCallAccepted: (callAccepted?: boolean) => void;
     setCallInfo: (callInfo?: CallInfo) => void;
     setStream: (stream?: MediaStream) => void;
@@ -26,6 +28,7 @@ interface Actions {
 
 const InitStates: States = {
   callMode: undefined,
+  userMediaError: undefined,
   callAccepted: undefined,
   callInfo: undefined,
   stream: undefined,
@@ -45,6 +48,9 @@ const callStates = immer<States & Actions>((set, get) => {
       },
       setCallAccepted: (callAccepted?: boolean) => {
         set({ callAccepted });
+      },
+      setUserMediaError: (userMediaError?: boolean) => {
+        set({ userMediaError });
       },
       setCallInfo: (callInfo?: CallInfo) => {
         set({ callInfo });

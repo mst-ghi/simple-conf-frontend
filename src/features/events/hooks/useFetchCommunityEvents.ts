@@ -1,17 +1,17 @@
 import useRequest from '@/hooks/useRequest';
 import { useQuery } from '@tanstack/react-query';
 
-const useFetchEvents = (
+const useFetchCommunityEvents = (
   args: {
     page?: number | string;
     take?: number | string;
-    search?: string;
-    own?: boolean;
+    communityId?: string;
   } = {
     page: 0,
-    take: 3,
-    own: false,
+    take: 20,
+    communityId: undefined,
   },
+  enabled?: boolean,
 ) => {
   const { callRequest } = useRequest();
 
@@ -19,12 +19,12 @@ const useFetchEvents = (
     events: IEvent[];
     meta: IPaginationMeta;
   }> => {
-    let url = `/api/v1/events${args.own ? '/own' : ''}?page=${args.page || 0}&take=${
-      args.take || 3
-    }`;
-    if (args.search) {
-      url += `&search=${args.search}`;
+    let url = `/api/v1/events?page=${args.page || 0}&take=${args.take || 20}`;
+
+    if (args.communityId) {
+      url += `&community_id=${args.communityId}`;
     }
+
     return await callRequest('GET', url);
   };
 
@@ -34,9 +34,10 @@ const useFetchEvents = (
   }>({
     queryKey: ['events', args],
     queryFn: fetchEvents,
+    enabled,
   });
 
   return query;
 };
 
-export default useFetchEvents;
+export default useFetchCommunityEvents;

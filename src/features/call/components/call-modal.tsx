@@ -45,9 +45,6 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
   const close = () => {
-    // actions.streamOFF();
-    // actions.reset();
-
     if (onClose) {
       onClose();
     }
@@ -67,6 +64,7 @@ const CallModal = ({ calling, receiving, onClose }: CallModalProps) => {
 
   useEffect(() => {
     if (!stream && calling) {
+      actions.reset();
       actions.streamON({ video: true, audio: true });
     }
     if (stream && calling && Boolean(call.user?.id)) {

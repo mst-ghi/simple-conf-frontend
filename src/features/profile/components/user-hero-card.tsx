@@ -1,8 +1,9 @@
-import { useApp } from '@/hooks';
 import { Avatar, Box, Card, Flex, Text, Title } from '@mantine/core';
 
-const UserHeroCard = () => {
-  const { user } = useApp();
+const UserHeroCard = ({ user }: { user?: IUserShort }) => {
+  if (!user) {
+    return null;
+  }
 
   return (
     <Card w="100%">

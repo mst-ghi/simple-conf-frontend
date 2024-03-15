@@ -11,6 +11,7 @@ const useCall = () => {
 
   const {
     callMode,
+    userMediaError,
     callAccepted,
     callInfo,
     stream,
@@ -46,8 +47,13 @@ const useCall = () => {
       .then((currentStream: any) => {
         actions.setStream(currentStream);
       })
-      .catch((err: any) => {
-        showNotification({ color: 'red', message: err.message });
+      .catch(() => {
+        actions.setUserMediaError(true);
+        showNotification({
+          color: 'red',
+          title: 'Devices Error',
+          message: 'Microphone or webcam is not connected',
+        });
       });
   };
 
@@ -166,6 +172,7 @@ const useCall = () => {
   return {
     call,
     callMode,
+    userMediaError,
     callAccepted,
     callInfo,
     stream,

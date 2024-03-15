@@ -1,18 +1,14 @@
 import { Fragment, useMemo } from 'react';
 import Link from 'next/link';
-import { ActionIcon, Flex, Loader, Menu } from '@mantine/core';
-import { usePathname } from 'next/navigation';
-import { openModal } from '@mantine/modals';
+import { ActionIcon, Button, Flex } from '@mantine/core';
+import { closeAllModals, openModal } from '@mantine/modals';
 import {
   CommunityForm,
   useCommunityActions,
   useFetchJoinedCommunities,
 } from '..';
 import {
-  IconCalendarEvent,
-  IconDotsVertical,
   IconEdit,
-  IconArrowLoopRight,
   IconTrash,
   IconLayersUnion,
   IconCalendarPlus,
@@ -26,7 +22,6 @@ const CommunityMenu = ({
   community?: ICommunity;
   done?: () => void;
 }) => {
-  const pathname = usePathname();
   const { refetch, isFetching } = useFetchJoinedCommunities();
   const { loading, isIJoined, isIOwner, joinRequest, leftRequest } =
     useCommunityActions();
@@ -55,7 +50,17 @@ const CommunityMenu = ({
               openModal({
                 title: `Update ${community.title}`,
                 size: 'xl',
-                children: <CommunityForm community={community} done={done} />,
+                children: (
+                  <CommunityForm
+                    community={community}
+                    done={() => {
+                      if (done) {
+                        done();
+                      }
+                      closeAllModals();
+                    }}
+                  />
+                ),
               });
             }}
           >
@@ -71,61 +76,27 @@ const CommunityMenu = ({
         </Fragment>
       )}
 
-      <Menu
-        width={148}
-        shadow="sm"
-        position="bottom-end"
-        withArrow
-        withinPortal
+      <Button
+        loading={loading}
+        leftSection={isJoinAble ? <IconLayersUnion /> : <IconLayersOff />}
+        color={isJoinAble ? 'green' : 'orange'}
+        disabled={isIOwner(community.owner_id)}
+        onClick={async () => {
+          if (isJoinAble) {
+            await joinRequest(community.id);
+          } else {
+            await leftRequest(community.id);
+          }
+
+          await refetch();
+
+          if (done) {
+            done();
+          }
+        }}
       >
-        <Menu.Target>
-          <ActionIcon color="white">
-            {loading || isFetching ? (
-              <Loader color="white" size="xs" />
-            ) : (
-              <IconDotsVertical />
-            )}
-          </ActionIcon>
-        </Menu.Target>
-
-        <Menu.Dropdown>
-          <Menu.Label>Operations</Menu.Label>
-          <Menu.Divider mx="xs" />
-
-          {!pathname.includes(community.id) && (
-            <Menu.Item
-              leftSection={<IconArrowLoopRight />}
-              component={Link}
-              href={`/communities/${community.id}`}
-            >
-              See Details
-            </Menu.Item>
-          )}
-
-          <Menu.Item leftSection={<IconCalendarEvent />}>See Events</Menu.Item>
-
-          <Menu.Item
-            leftSection={isJoinAble ? <IconLayersUnion /> : <IconLayersOff />}
-            color={isJoinAble ? 'green' : 'orange'}
-            disabled={isIOwner(community.owner_id)}
-            onClick={async () => {
-              if (isJoinAble) {
-                await joinRequest(community.id);
-              } else {
-                await leftRequest(community.id);
-              }
-
-              await refetch();
-
-              if (done) {
-                done();
-              }
-            }}
-          >
-            {isJoinAble ? 'Join' : 'Left'}
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
+        {isJoinAble ? 'Join' : 'Left'}
+      </Button>
     </Flex>
   );
 };
