@@ -38,7 +38,7 @@ const CommunityMenu = ({
   }
 
   return (
-    <Flex direction="row" align="center" gap="md">
+    <Flex direction="row" align="center" gap="sm">
       {isIOwner(community.owner_id) && (
         <Fragment>
           <ActionIcon color="orange">

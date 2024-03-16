@@ -64,3 +64,11 @@ export const addTimeToNow = (
     .add(+value, unit as ManipulateType)
     .format();
 };
+
+export const isDateBefore = (dateValue: Date | string) => {
+  return dayjs(dateValue).isBefore(dayjs());
+};
+
+export const isDateAfter = (dateValue: Date | string) => {
+  return dayjs(dateValue).isAfter(dayjs());
+};

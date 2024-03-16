@@ -1,19 +1,25 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { ActionIcon, Flex, Menu } from '@mantine/core';
-import { usePathname } from 'next/navigation';
+import { ActionIcon, Button, Flex } from '@mantine/core';
 import { openModal } from '@mantine/modals';
 import { EventForm } from '..';
 import { useApp } from '@/hooks';
 import {
-  IconDotsVertical,
   IconEdit,
-  IconArrowLoopRight,
   IconTrash,
+  IconCube,
+  IconArrowRight,
 } from '@tabler/icons-react';
 
-const EventMenu = ({ event, done }: { event?: IEvent; done?: () => void }) => {
-  const pathname = usePathname();
+const EventMenu = ({
+  event,
+  joinable,
+  done,
+}: {
+  event?: IEvent;
+  joinable?: boolean;
+  done?: () => void;
+}) => {
   const { user } = useApp();
 
   if (!event) {
@@ -21,7 +27,7 @@ const EventMenu = ({ event, done }: { event?: IEvent; done?: () => void }) => {
   }
 
   return (
-    <Flex direction="row" align="center" gap="md">
+    <Flex direction="row" align="center" gap="sm">
       {event.community?.owner_id === user?.id && (
         <Fragment>
           <ActionIcon color="orange">
@@ -42,42 +48,25 @@ const EventMenu = ({ event, done }: { event?: IEvent; done?: () => void }) => {
         </Fragment>
       )}
 
-      <Menu
-        width={184}
-        shadow="sm"
-        position="bottom-end"
-        withArrow
-        withinPortal
+      <Button
+        size="xs"
+        variant="light"
+        component={Link}
+        leftSection={<IconCube size={20} />}
+        href={`/communities/${event.community_id}`}
       >
-        <Menu.Target>
-          <ActionIcon color="white">
-            <IconDotsVertical />
-          </ActionIcon>
-        </Menu.Target>
+        Community
+      </Button>
 
-        <Menu.Dropdown>
-          <Menu.Label>Operations</Menu.Label>
-          <Menu.Divider mx="xs" />
-
-          {!pathname.includes(event.id) && (
-            <Menu.Item
-              leftSection={<IconArrowLoopRight />}
-              component={Link}
-              href={`/events/${event.id}`}
-            >
-              See Details
-            </Menu.Item>
-          )}
-
-          <Menu.Item
-            leftSection={<IconArrowLoopRight />}
-            component={Link}
-            href={`/communities/${event.community_id}`}
-          >
-            See Community
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
+      <Button
+        size="xs"
+        variant="light"
+        color="green"
+        leftSection={<IconArrowRight size={20} />}
+        disabled={!joinable}
+      >
+        Join Meeting
+      </Button>
     </Flex>
   );
 };

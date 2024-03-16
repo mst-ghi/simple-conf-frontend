@@ -1,41 +1,45 @@
-import { Card, Flex, Text, Title } from '@mantine/core';
-import { useEffect, useState } from 'react';
-import { EventMenu, EventTimer, useFetchEvent } from '..';
-import { dateView } from '@/utils';
-import { IconClockCheck, IconClockUp, IconClockX } from '@tabler/icons-react';
-import { closeAllModals } from '@mantine/modals';
+import { Button, Card, Flex, Text, Title } from '@mantine/core';
+import { useEffect, useMemo, useState } from 'react';
+import { EventOverAlert, EventStartAlert, EventTimer } from '..';
+import {
+  IconArrowRight,
+  IconClockCheck,
+  IconClockUp,
+  IconClockX,
+} from '@tabler/icons-react';
 import { useThemeStyle } from '@/hooks';
+import { isDateAfter } from '@/utils';
+import Link from 'next/link';
 
 const EventStatus = {
-  pending: <IconClockUp size={24} color="white" />,
-  started: <IconClockCheck size={24} color="green" />,
-  finished: <IconClockX size={24} color="red" />,
+  pending: {
+    icon: <IconClockUp size={24} color="white" />,
+    color: 'white',
+  },
+  started: {
+    icon: <IconClockCheck size={24} color="green" />,
+    color: 'green',
+  },
+  finished: {
+    icon: <IconClockX size={24} color="red" />,
+    color: 'red',
+  },
 };
 
 const EventCard = ({ event }: { event?: IEvent }) => {
   const { isDesktop } = useThemeStyle();
   const [eventData, setEventData] = useState<IEvent>();
 
-  const { data, refetch } = useFetchEvent(eventData?.id, {
-    enabled: false,
-  });
-
-  const onFormDoneAction = () => {
-    closeAllModals();
-    refetch();
-  };
+  const joinable = useMemo(() => {
+    if (!eventData) return false;
+    return isDateAfter(eventData.start_at) && eventData.status === 'started';
+  }, [eventData]);
 
   useEffect(() => {
     if (event) {
       setEventData(event);
     }
   }, [event]);
-
-  useEffect(() => {
-    if (data?.event) {
-      setEventData(data.event);
-    }
-  }, [data]);
 
   if (!event || !eventData) {
     return null;
@@ -52,14 +56,26 @@ const EventCard = ({ event }: { event?: IEvent }) => {
           px="md"
         >
           <Flex direction="row" align="center" gap={4}>
-            {EventStatus[event.status]}
+            {EventStatus[eventData.status].icon}
 
-            <Text c="white">{dateView(eventData.start_at)}</Text>
+            <Text c={EventStatus[eventData.status].color} tt="capitalize">
+              {eventData.status}
+            </Text>
           </Flex>
 
-          <EventMenu event={eventData} done={onFormDoneAction} />
+          <Button
+            component={Link}
+            href={`/events/${eventData.id}`}
+            variant="filled"
+            rightSection={<IconArrowRight />}
+          >
+            See Details
+          </Button>
         </Flex>
       </Card.Section>
+
+      <EventOverAlert enable={eventData.status === 'finished'} />
+      <EventStartAlert enable={joinable} />
 
       <Flex direction={isDesktop ? 'row' : 'column-reverse'} gap="md">
         <Flex direction="column" mt={6} style={{ flex: 1 }}>

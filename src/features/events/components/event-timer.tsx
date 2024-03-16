@@ -1,5 +1,5 @@
-import { addToDate } from '@/utils';
-import { Card, Center, Text } from '@mantine/core';
+import { addToDate, dateView } from '@/utils';
+import { Card, Center, Flex, Text } from '@mantine/core';
 import React, { useState, useEffect } from 'react';
 
 const EventTimer = ({
@@ -50,72 +50,78 @@ const EventTimer = ({
   }, [startDate]);
 
   return (
-    <Card shadow="0" px="sm" pt="xs" miw={220} h={110}>
-      <Card.Section bg="gray.2" pt={8}>
-        <Center>
-          <Text fw={500} fz="xs" c="gray.6">
-            Remaining
+    <Flex direction="column" align="center" gap="xs">
+      <Text c="gray" tt="capitalize" size="sm">
+        {dateView(startDate, 'full-date-time')}
+      </Text>
+
+      <Card shadow="0" px="sm" pt="xs" miw={220} h={110}>
+        <Card.Section bg="gray.2" pt={8}>
+          <Center>
+            <Text fw={500} fz="xs" c="gray.6">
+              Remaining
+            </Text>
+          </Center>
+        </Card.Section>
+
+        <Center
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 22,
+          }}
+        >
+          <Text
+            fw={500}
+            fz={40}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {remaining.days}
+            <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
+              days
+            </span>
+          </Text>
+
+          <Text
+            fw={500}
+            fz={40}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {remaining.hours}
+            <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
+              hours
+            </span>
+          </Text>
+
+          <Text
+            fw={500}
+            fz={40}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            {remaining.minutes}
+            <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
+              minutes
+            </span>
           </Text>
         </Center>
-      </Card.Section>
-
-      <Center
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 22,
-        }}
-      >
-        <Text
-          fw={500}
-          fz={40}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {remaining.days}
-          <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
-            days
-          </span>
-        </Text>
-
-        <Text
-          fw={500}
-          fz={40}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {remaining.hours}
-          <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
-            hours
-          </span>
-        </Text>
-
-        <Text
-          fw={500}
-          fz={40}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {remaining.minutes}
-          <span style={{ fontSize: 12, marginTop: -12, color: 'gray' }}>
-            minutes
-          </span>
-        </Text>
-      </Center>
-    </Card>
+      </Card>
+    </Flex>
   );
 };
 
