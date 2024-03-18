@@ -188,6 +188,7 @@ const EventForm = ({
           <Textarea
             minLength={2}
             maxLength={255}
+            rows={4}
             withAsterisk
             mt={10}
             label="Description"

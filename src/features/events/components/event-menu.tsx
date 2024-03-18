@@ -39,7 +39,13 @@ const EventMenu = ({
               openModal({
                 title: `Update ${event.title}`,
                 size: 'xl',
-                children: <EventForm event={event} done={done} />,
+                children: (
+                  <EventForm
+                    communityId={event.community_id}
+                    event={event}
+                    done={done}
+                  />
+                ),
               });
             }}
           >
