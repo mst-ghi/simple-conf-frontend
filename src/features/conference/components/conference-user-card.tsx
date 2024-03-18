@@ -1,17 +1,17 @@
 import { Avatar, Card, CardProps, Center, Text } from '@mantine/core';
 
-interface ConfUserCardProps extends CardProps {
+interface ConferenceUserCardProps extends CardProps {
   name?: string;
   avatar?: string;
 }
 
-const ConfUserCard = ({
+const ConferenceUserCard = ({
   name,
   avatar,
   h = 120,
   w = '100%',
   ...props
-}: ConfUserCardProps) => {
+}: ConferenceUserCardProps) => {
   return (
     <Card h={h} w={w} {...props}>
       <Center
@@ -29,4 +29,4 @@ const ConfUserCard = ({
   );
 };
 
-export default ConfUserCard;
+export default ConferenceUserCard;

@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { Card, Flex, Text, Title } from '@mantine/core';
 import { useThemeStyle } from '@/hooks';
 import { useMemo } from 'react';
-import { isDateAfter } from '@/utils';
+import { addTimeTo, isDateAfter, isDateBefore } from '@/utils';
 
 import {
   EventMenu,
@@ -22,7 +22,23 @@ export default function EventPage({ params }: { params: { id: string } }) {
 
   const joinable = useMemo(() => {
     if (!data?.event) return false;
-    return isDateAfter(data.event.start_at) && data.event.status === 'started';
+
+    if (data.event.status === 'finished') {
+      return false;
+    }
+
+    if (
+      isDateBefore(
+        addTimeTo(data.event.start_at, data.event.duration, 'minute'),
+      )
+    ) {
+      return false;
+    }
+
+    return (
+      isDateBefore(data.event.start_at) &&
+      ['started', 'pending'].includes(data.event.status)
+    );
   }, [data]);
 
   if (!isFetching && !data?.event?.id) {

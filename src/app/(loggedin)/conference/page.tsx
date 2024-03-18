@@ -1,12 +1,20 @@
 'use client';
 
 import { Page } from '@/features/shell';
-import { ConfGrid } from '@/features/conference';
+import { Conference } from '@/features/conference';
+import { notFound, useSearchParams } from 'next/navigation';
 
-export default function ConfPage() {
+export default function ConfConferencePage() {
+  const search = useSearchParams();
+  const eventId = search.get('eventId');
+
+  if (!eventId) {
+    return notFound();
+  }
+
   return (
     <Page title="Conference" unstyled>
-      <ConfGrid />
+      <Conference eventId={eventId} />
     </Page>
   );
 }

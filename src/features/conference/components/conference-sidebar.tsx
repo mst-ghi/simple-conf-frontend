@@ -1,16 +1,16 @@
 import { Card, Flex, ScrollArea } from '@mantine/core';
-import { ConfUserCard } from '.';
+import { ConferenceUserCard } from '.';
 
-interface ConfSidebarProps {
+interface ConferenceSidebarProps {
   mode?: 'users' | 'chat';
 }
 
-const ConfSidebar = ({ mode }: ConfSidebarProps) => {
+const ConferenceSidebar = ({ mode }: ConferenceSidebarProps) => {
   return (
     <Card
       bg="gray.1"
       withBorder={false}
-      h="87vh"
+      h="85vh"
       pos="relative"
       px="sm"
       pt="xs"
@@ -28,17 +28,17 @@ const ConfSidebar = ({ mode }: ConfSidebarProps) => {
         }}
       >
         <Flex direction="column" align="center" justify="flex-start" gap="xs">
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
-          <ConfUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
+          <ConferenceUserCard name="Mostafa" />
         </Flex>
       </ScrollArea>
     </Card>
   );
 };
 
-export default ConfSidebar;
+export default ConferenceSidebar;

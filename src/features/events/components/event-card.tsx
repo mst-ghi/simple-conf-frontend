@@ -8,7 +8,7 @@ import {
   IconClockX,
 } from '@tabler/icons-react';
 import { useThemeStyle } from '@/hooks';
-import { isDateAfter } from '@/utils';
+import { addTimeTo, isDateAfter, isDateBefore } from '@/utils';
 import Link from 'next/link';
 
 const EventStatus = {
@@ -35,6 +35,20 @@ const EventCard = ({ event }: { event?: IEvent }) => {
     return isDateAfter(eventData.start_at) && eventData.status === 'started';
   }, [eventData]);
 
+  const status = useMemo(() => {
+    if (!eventData) {
+      return EventStatus.pending;
+    }
+
+    if (
+      isDateBefore(addTimeTo(eventData.start_at, eventData.duration, 'minute'))
+    ) {
+      return EventStatus.finished;
+    }
+
+    return EventStatus[eventData.status];
+  }, [eventData]);
+
   useEffect(() => {
     if (event) {
       setEventData(event);
@@ -56,11 +70,7 @@ const EventCard = ({ event }: { event?: IEvent }) => {
           px="md"
         >
           <Flex direction="row" align="center" gap={4}>
-            {EventStatus[eventData.status].icon}
-
-            <Text c={EventStatus[eventData.status].color} tt="capitalize">
-              {eventData.status}
-            </Text>
+            {status.icon}
           </Flex>
 
           <Button

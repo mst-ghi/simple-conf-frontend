@@ -65,6 +65,16 @@ export const addTimeToNow = (
     .format();
 };
 
+export const addTimeTo = (
+  dateValue: Date | string,
+  value: number | string,
+  unit: AddTimeUnits = 'second',
+) => {
+  return dayjs(dateValue)
+    .add(+value, unit as ManipulateType)
+    .format();
+};
+
 export const isDateBefore = (dateValue: Date | string) => {
   return dayjs(dateValue).isBefore(dayjs());
 };

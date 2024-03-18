@@ -1,7 +1,7 @@
-export { default as ConfActionBar } from './conf-action-bar';
-export { default as ConfUserCard } from './conf-user-card';
-export { default as ConfCode } from './conf-code';
-export { default as ConfSidebar } from './conf-sidebar';
-export { default as ConfView } from './conf-view';
-export { default as ConfGrid } from './conf-grid';
-export { default as ConfContent } from './conf-content';
+export { default as ConferenceActionBar } from './conference-action-bar';
+export { default as ConferenceUserCard } from './conference-user-card';
+export { default as ConferenceCode } from './conference-code';
+export { default as ConferenceSidebar } from './conference-sidebar';
+export { default as ConferenceView } from './conference-view';
+export { default as Conference } from './conference';
+export { default as ConferenceContent } from './conference-content';

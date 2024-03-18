@@ -10,7 +10,7 @@ import {
   IconVideoOff,
 } from '@tabler/icons-react';
 
-const ConfActionBar = () => {
+const ConferenceActionBar = () => {
   const {
     micStatus,
     webcamStatus,
@@ -73,4 +73,4 @@ const ConfActionBar = () => {
   );
 };
 
-export default ConfActionBar;
+export default ConferenceActionBar;

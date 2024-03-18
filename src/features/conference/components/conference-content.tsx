@@ -1,18 +1,18 @@
 import { Card, CardProps, Center, Flex, ScrollArea } from '@mantine/core';
-import { ConfUserCard } from '.';
+import { ConferenceUserCard } from '.';
 import useApp from '@/hooks/useApp';
-import { IconDualScreen, IconScreenShare } from '@tabler/icons-react';
+import { IconScreenShare } from '@tabler/icons-react';
 
-interface ConfContentPros extends CardProps {}
+interface ConferenceContentPros extends CardProps {}
 
-const ConfContent = ({
+const ConferenceContent = ({
   mx = 'xl',
   h = '70vh',
   bg = 'transparent',
   mt = 'md',
   withBorder = false,
   ...props
-}: ConfContentPros) => {
+}: ConferenceContentPros) => {
   const { screenSharingStatus } = useApp();
 
   return (
@@ -43,8 +43,8 @@ const ConfContent = ({
             p="lg"
             h="100%"
           >
-            <ConfUserCard name="Mostafa" w={220} h={220} />
-            <ConfUserCard name="Mostafa" w={220} h={220} />
+            <ConferenceUserCard name="Mostafa" w={220} h={220} />
+            <ConferenceUserCard name="Mostafa" w={220} h={220} />
           </Flex>
         </ScrollArea>
       )}
@@ -52,4 +52,4 @@ const ConfContent = ({
   );
 };
 
-export default ConfContent;
+export default ConferenceContent;
