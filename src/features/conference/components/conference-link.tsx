@@ -5,22 +5,23 @@ import { IconCopy } from '@tabler/icons-react';
 import { useClipboard } from '@mantine/hooks';
 
 interface ConferenceCodeProps {
-  code: string;
+  id: string;
+  disabled?: boolean;
 }
 
-const ConferenceCode = ({ code }: ConferenceCodeProps) => {
+const ConferenceCode = ({ id, disabled }: ConferenceCodeProps) => {
   const clipboard = useClipboard({ timeout: 400 });
 
   return (
     <Button
-      w={120}
       size="xs"
       variant="light"
       leftSection={<IconCopy size={18} />}
       color={clipboard.copied ? 'teal' : 'dark'}
-      onClick={() => clipboard.copy(code)}
+      onClick={() => clipboard.copy(id)}
+      disabled={disabled}
     >
-      Copy Code
+      Copy Link
     </Button>
   );
 };

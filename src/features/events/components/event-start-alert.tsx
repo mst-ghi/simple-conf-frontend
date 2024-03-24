@@ -1,7 +1,7 @@
 import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 
-const EventStartAlert = ({ enable }: { enable: boolean }) => {
+const EventStartAlert = ({ enable }: { enable?: boolean }) => {
   if (!enable) {
     return null;
   }

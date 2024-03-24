@@ -5,9 +5,15 @@ import React, { useState, useEffect } from 'react';
 const EventTimer = ({
   startDate,
   duration,
+  miw = 220,
+  h = 110,
+  bg,
 }: {
   startDate: Date;
   duration: number;
+  miw?: number;
+  h?: number;
+  bg?: string;
 }) => {
   const calculateTimeRemaining = () => {
     const now = new Date().getTime();
@@ -50,16 +56,12 @@ const EventTimer = ({
   }, [startDate]);
 
   return (
-    <Flex direction="column" align="center" gap="xs">
-      <Text c="gray" tt="capitalize" size="sm">
-        {dateView(startDate, 'full-date-time')}
-      </Text>
-
-      <Card shadow="0" px="sm" pt="xs" miw={220} h={110}>
-        <Card.Section bg="gray.2" pt={8}>
+    <Flex direction="column" align="center" gap={4} mt={4}>
+      <Card shadow="0" px="sm" pt={12} miw={miw} h={h}>
+        <Card.Section bg={bg} pt="xs" pb={2}>
           <Center>
-            <Text fw={500} fz="xs" c="gray.6">
-              Remaining
+            <Text fw={500} tt="capitalize" fz={14}>
+              {dateView(startDate, 'full-date-time')}
             </Text>
           </Center>
         </Card.Section>

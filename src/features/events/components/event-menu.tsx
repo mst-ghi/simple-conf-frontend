@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { ActionIcon, Button, Flex } from '@mantine/core';
-import { openModal } from '@mantine/modals';
+import { closeAllModals, openModal } from '@mantine/modals';
 import { EventForm } from '..';
 import { useApp } from '@/hooks';
 import {
@@ -43,7 +43,10 @@ const EventMenu = ({
                   <EventForm
                     communityId={event.community_id}
                     event={event}
-                    done={done}
+                    done={() => {
+                      done && done();
+                      closeAllModals();
+                    }}
                   />
                 ),
               });
@@ -70,6 +73,8 @@ const EventMenu = ({
         color="green"
         leftSection={<IconArrowRight size={20} />}
         disabled={!joinable}
+        component={Link}
+        href={`/conference?eventId=${event?.id}`}
       >
         Join Meeting
       </Button>

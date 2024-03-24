@@ -1,15 +1,16 @@
 import { Button, Card, Flex, Text, Title } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { EventOverAlert, EventStartAlert, EventTimer } from '..';
+
+import { useThemeStyle } from '@/hooks';
+import Link from 'next/link';
+
+import { EventTimer, useEventStatus } from '..';
 import {
   IconArrowRight,
   IconClockCheck,
   IconClockUp,
   IconClockX,
 } from '@tabler/icons-react';
-import { useThemeStyle } from '@/hooks';
-import { addTimeTo, isDateAfter, isDateBefore } from '@/utils';
-import Link from 'next/link';
 
 const EventStatus = {
   pending: {
@@ -21,8 +22,8 @@ const EventStatus = {
     color: 'green',
   },
   finished: {
-    icon: <IconClockX size={24} color="red" />,
-    color: 'red',
+    icon: <IconClockX size={24} color="orange" />,
+    color: 'orange',
   },
 };
 
@@ -30,24 +31,19 @@ const EventCard = ({ event }: { event?: IEvent }) => {
   const { isDesktop } = useThemeStyle();
   const [eventData, setEventData] = useState<IEvent>();
 
-  const joinable = useMemo(() => {
-    if (!eventData) return false;
-    return isDateAfter(eventData.start_at) && eventData.status === 'started';
-  }, [eventData]);
+  const { isStarted, isFinished } = useEventStatus({ event: eventData });
 
   const status = useMemo(() => {
     if (!eventData) {
       return EventStatus.pending;
     }
 
-    if (
-      isDateBefore(addTimeTo(eventData.start_at, eventData.duration, 'minute'))
-    ) {
+    if (isFinished) {
       return EventStatus.finished;
     }
 
     return EventStatus[eventData.status];
-  }, [eventData]);
+  }, [eventData, isFinished]);
 
   useEffect(() => {
     if (event) {
@@ -71,6 +67,9 @@ const EventCard = ({ event }: { event?: IEvent }) => {
         >
           <Flex direction="row" align="center" gap={4}>
             {status.icon}
+            <Text c={status.color} fw={500}>
+              {isStarted ? 'Started' : isFinished ? 'Finished' : 'Pending'}
+            </Text>
           </Flex>
 
           <Button
@@ -83,9 +82,6 @@ const EventCard = ({ event }: { event?: IEvent }) => {
           </Button>
         </Flex>
       </Card.Section>
-
-      <EventOverAlert enable={eventData.status === 'finished'} />
-      <EventStartAlert enable={joinable} />
 
       <Flex direction={isDesktop ? 'row' : 'column-reverse'} gap="md">
         <Flex direction="column" mt={6} style={{ flex: 1 }}>
