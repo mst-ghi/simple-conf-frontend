@@ -31,7 +31,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
       loading={isFetching}
     >
       <Flex direction="row" justify="end" mb="md">
-        <EventMenu event={data?.event} done={refetch} joinable={isStarted} />
+        <EventMenu event={data?.event} done={refetch} joinable />
       </Flex>
 
       <Card>

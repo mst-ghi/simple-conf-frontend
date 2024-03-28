@@ -6,7 +6,7 @@
 
 ## Description
 
-A simple project for communities. This project contain **Communities**, **Events**, **Chat**, **Video Chat** and etc.
+A simple project for communities. This project contain **Communities**, **Events**, **Conferences**, **Chat**, **Video Chat** and etc.
 
 ## Installation & Running the app
 

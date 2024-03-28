@@ -15,14 +15,14 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@mantine/core": "^7.6.2",
-    "@mantine/dates": "^7.6.2",
-    "@mantine/form": "^7.6.2",
-    "@mantine/hooks": "^7.6.2",
-    "@mantine/modals": "^7.6.2",
-    "@mantine/notifications": "^7.6.2",
+    "@mantine/core": "^7.7.0",
+    "@mantine/dates": "^7.7.0",
+    "@mantine/form": "^7.7.0",
+    "@mantine/hooks": "^7.7.0",
+    "@mantine/modals": "^7.7.0",
+    "@mantine/notifications": "^7.7.0",
     "@tabler/icons-react": "^2.47.0",
-    "@tanstack/react-query": "^5.28.2",
+    "@tanstack/react-query": "^5.28.9",
     "bufferutil": "^4.0.8",
     "dayjs": "^1.11.10",
     "immer": "^10.0.4",
@@ -40,8 +40,8 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^20.11.27",
-    "@types/react": "^18.2.66",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.22",
     "@types/simple-peer": "^9.11.8",
     "@types/socket.io-client": "1.4.36",
@@ -49,6 +49,6 @@
     "eslint-config-next": "14.0.4",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   }
 }
