@@ -1,4 +1,4 @@
-# Video Conf Frontend Project
+# Simple Conf Frontend Project
 
 [Backend Source Code](https://github.com/mst-ghi/simple-conf-backend)
 
