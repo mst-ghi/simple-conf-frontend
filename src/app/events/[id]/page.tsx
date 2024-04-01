@@ -3,7 +3,9 @@
 import { Page } from '@/features/shell';
 import { notFound } from 'next/navigation';
 
-import { Card, Flex, Text, Title } from '@mantine/core';
+import { Card, Flex, Tabs, Text, Title } from '@mantine/core';
+import { IconMessage2 } from '@tabler/icons-react';
+import { CommentsGroup } from '@/features/comments';
 import { useThemeStyle } from '@/hooks';
 
 import {
@@ -18,7 +20,6 @@ import {
 export default function EventPage({ params }: { params: { id: string } }) {
   const { isDesktop } = useThemeStyle();
   const { data, isFetching, refetch } = useFetchEvent(params.id);
-
   const { isStarted, isFinished } = useEventStatus({ event: data?.event });
 
   if (!isFetching && !data?.event?.id) {
@@ -34,7 +35,7 @@ export default function EventPage({ params }: { params: { id: string } }) {
         <EventMenu event={data?.event} done={refetch} joinable />
       </Flex>
 
-      <Card>
+      <Card withBorder={false} px={0} pt={0} radius={0}>
         <EventOverAlert enable={isFinished} />
         <EventStartAlert enable={isStarted} />
 
@@ -61,6 +62,20 @@ export default function EventPage({ params }: { params: { id: string } }) {
           )}
         </Flex>
       </Card>
+
+      <Tabs mt="lg" defaultValue="comments" variant="outline">
+        <Tabs.List>
+          <Tabs.Tab value="comments" leftSection={<IconMessage2 />}>
+            Comments
+          </Tabs.Tab>
+        </Tabs.List>
+
+        {data?.event.id && (
+          <Tabs.Panel value="comments" p="sm">
+            <CommentsGroup modelId={data?.event.id} modelType="event" />
+          </Tabs.Panel>
+        )}
+      </Tabs>
     </Page>
   );
 }
