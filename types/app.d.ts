@@ -129,4 +129,16 @@ export declare global {
     offer: SignalData;
     answer?: SignalData;
   }
+
+  type TCommentModelType = 'community' | 'event';
+
+  interface IComment {
+    id: string;
+    user_id: string;
+    model_id: string;
+    model_type: TCommentModelType;
+    content: string;
+    created_at: string;
+    user: IUserShort;
+  }
 }

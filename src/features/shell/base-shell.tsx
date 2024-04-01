@@ -113,7 +113,7 @@ const BaseShell = ({
                   <PageHeader />
                 </AppShell.Header>
 
-                <AppShell.Main>
+                <AppShell.Main mt="md">
                   <ScrollArea type="always" h="100vh" pt={60}>
                     <Box
                       px="sm"

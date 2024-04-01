@@ -7,8 +7,24 @@ import {
   CommunityMenu,
   useFetchCommunity,
 } from '@/features/communities';
-import { Avatar, Card, Divider, Flex, Group, Text, Title } from '@mantine/core';
+import {
+  Avatar,
+  Card,
+  Center,
+  Divider,
+  Flex,
+  Group,
+  Tabs,
+  Text,
+  Title,
+} from '@mantine/core';
 import { Fragment } from 'react';
+import {
+  IconCalendarCheck,
+  IconMessage2,
+  IconUsersGroup,
+} from '@tabler/icons-react';
+import { CommentsGroup } from '@/features/comments';
 
 export default function CommunityPage({ params }: { params: { id: string } }) {
   const { data, isFetching, refetch } = useFetchCommunity(params.id);
@@ -26,28 +42,46 @@ export default function CommunityPage({ params }: { params: { id: string } }) {
         <CommunityMenu community={data?.community} done={refetch} />
       </Flex>
 
-      <Card>
-        <Text c="gray" tt="capitalize" size="sm" mb={6}>
+      <Card withBorder={false} px={0} pt={0}>
+        <Text c="gray" tt="capitalize" size="sm" mb={4}>
           {data?.community.owner?.name}
         </Text>
 
         <Flex direction="column">
-          <Title order={3} tt="capitalize">
+          <Title order={2} tt="capitalize">
             {data?.community.title}
           </Title>
 
-          <Text>{data?.community.description}</Text>
+          <Text mt="xs">{data?.community.description}</Text>
         </Flex>
       </Card>
 
-      {Boolean(data && data.community?.users?.length) && (
-        <Fragment>
-          <Divider
-            mt="sm"
-            labelPosition="left"
-            label={<Text size="sm">Joined Users</Text>}
-          />
+      <Tabs mt="lg" defaultValue="events" variant="outline">
+        <Tabs.List>
+          <Tabs.Tab value="events" leftSection={<IconCalendarCheck />}>
+            Events
+          </Tabs.Tab>
 
+          <Tabs.Tab value="users" leftSection={<IconUsersGroup />}>
+            Users
+          </Tabs.Tab>
+
+          <Tabs.Tab value="comments" leftSection={<IconMessage2 />}>
+            Comments
+          </Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="events" p="sm">
+          <CommunityEvents communityId={data?.community.id} />
+        </Tabs.Panel>
+
+        {data?.community.id && (
+          <Tabs.Panel value="comments" p="sm">
+            <CommentsGroup modelId={data?.community.id} modelType="community" />
+          </Tabs.Panel>
+        )}
+
+        <Tabs.Panel value="users" p="sm">
           <Flex direction="row" align="center" wrap="wrap" mt="sm" gap="sm">
             {data?.community.users?.map((user) => {
               return (
@@ -71,17 +105,15 @@ export default function CommunityPage({ params }: { params: { id: string } }) {
                 </Card>
               );
             })}
+
+            {!Boolean(data && data.community?.users?.length) && (
+              <Text c="gray" tt="capitalize" size="sm">
+                No Users
+              </Text>
+            )}
           </Flex>
-        </Fragment>
-      )}
-
-      <Divider
-        my="md"
-        labelPosition="left"
-        label={<Text size="sm">All Active Events</Text>}
-      />
-
-      <CommunityEvents communityId={data?.community.id} />
+        </Tabs.Panel>
+      </Tabs>
     </Page>
   );
 }

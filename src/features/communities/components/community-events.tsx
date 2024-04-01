@@ -6,7 +6,7 @@ import { useState } from 'react';
 const CommunityEvents = ({ communityId }: { communityId?: string }) => {
   const [page, setPage] = useState(1);
   const { data, isFetching } = useFetchCommunityEvents(
-    { page },
+    { page, communityId },
     Boolean(communityId),
   );
 

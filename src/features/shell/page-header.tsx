@@ -32,7 +32,7 @@ const PageHeader = () => {
       pb={isDesktop ? 'xs' : 0}
       radius={0}
       withBorder={false}
-      style={{ backgroundColor: 'transparent' }}
+      bg="gray.1"
     >
       <Flex direction="row" align="center" justify="space-between">
         {isDesktop && (
